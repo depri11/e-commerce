@@ -72,8 +72,8 @@ func (s *service) Delete(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Search(query string) (*helper.Res, error) {
-	data, err := s.repository.Search(query)
+func (s *service) Search(page, search, sort string) (*helper.Res, error) {
+	data, err := s.repository.Search(page, search, sort)
 	if err != nil {
 		return nil, err
 	}

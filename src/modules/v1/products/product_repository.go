@@ -2,11 +2,13 @@ package products
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type repository struct {
@@ -76,7 +78,7 @@ func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
 	return r.C.DeleteOne(ctx, bson.M{"_id": p})
 }
 
-func (r *repository) Search(query string) ([]models.Product, error) {
+func (r *repository) Search(page, search, sort string) ([]models.Product, error) {
 	ctx := context.TODO()
 
 	var products []models.Product
@@ -86,7 +88,7 @@ func (r *repository) Search(query string) ([]models.Product, error) {
 			{
 				"name": bson.M{
 					"$regex": primitive.Regex{
-						Pattern: query,
+						Pattern: search,
 						Options: "i",
 					},
 				},
@@ -94,13 +96,49 @@ func (r *repository) Search(query string) ([]models.Product, error) {
 			{
 				"description": bson.M{
 					"$regex": primitive.Regex{
-						Pattern: query,
+						Pattern: search,
 						Options: "i",
 					},
 				},
 			},
 		},
 	}
+	findOptions := options.Find()
+
+	if sort == "asc" {
+		findOptions.SetSort(bson.D{{"price", 1}})
+	} else if sort == "desc" {
+		findOptions.SetSort(bson.D{{"price", -1}})
+	}
+
+	var perPage int64 = 3
+
+	p, _ := strconv.Atoi(page)
+
+	findOptions.SetSkip((int64(p) - 1) * perPage)
+	findOptions.SetLimit(3)
+
+	cursor, err := r.C.Find(ctx, filter, findOptions)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	for cursor.Next(ctx) {
+		var product models.Product
+		cursor.Decode(&product)
+		products = append(products, product)
+	}
+
+	return products, nil
+}
+
+func (r *repository) Sort(query string) ([]models.Product, error) {
+	ctx := context.TODO()
+
+	var products []models.Product
+
+	filter := bson.M{}
 
 	cursor, err := r.C.Find(ctx, filter)
 	if err != nil {

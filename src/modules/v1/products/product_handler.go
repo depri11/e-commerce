@@ -80,7 +80,9 @@ func (h *handler) DeletProduct(c echo.Context) error {
 
 func (h *handler) QueryProducts(c echo.Context) error {
 	search := c.QueryParam("s")
-	data, err := h.service.Search(search)
+	sort := c.QueryParam("sort")
+	page := c.QueryParam("page")
+	data, err := h.service.Search(page, search, sort)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
