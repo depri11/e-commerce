@@ -12,9 +12,11 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	service := NewService(repository)
 	handler := NewHandler(service)
 
-	e.GET("/products", handler.GetProducts)
-	e.GET("/products/:id", handler.GetProduct)
+	e.GET("/products", handler.QueryProducts)
+	e.GET("/products/all", handler.GetAllProducts)
+
+	e.GET("/products/:id", handler.GetProductDetails)
 	e.POST("/products", handler.CreateProduct)
 	e.PUT("/products/:id", handler.UpdateProduct)
-	e.DELETE("/products/:od", handler.DeletProduct)
+	e.DELETE("/products/:id", handler.DeletProduct)
 }

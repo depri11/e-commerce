@@ -2,7 +2,6 @@ package products
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -21,18 +20,15 @@ func NewRepository(C *mongo.Collection) *repository {
 func (r *repository) FindAll() ([]models.Product, error) {
 	ctx := context.TODO()
 
-	cur, err := r.C.Find(ctx, bson.M{})
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
 	var products []models.Product
 
-	err = cur.All(ctx, &products)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	cursor, _ := r.C.Find(ctx, bson.M{})
+	defer cursor.Close(ctx)
+
+	for cursor.Next(ctx) {
+		var product models.Product
+		cursor.Decode(&product)
+		products = append(products, product)
 	}
 
 	return products, nil
@@ -78,4 +74,45 @@ func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
 
 	ctx := context.TODO()
 	return r.C.DeleteOne(ctx, bson.M{"_id": p})
+}
+
+func (r *repository) Search(query string) ([]models.Product, error) {
+	ctx := context.TODO()
+
+	var products []models.Product
+
+	filter := bson.M{
+		"$or": []bson.M{
+			{
+				"name": bson.M{
+					"$regex": primitive.Regex{
+						Pattern: query,
+						Options: "i",
+					},
+				},
+			},
+			{
+				"description": bson.M{
+					"$regex": primitive.Regex{
+						Pattern: query,
+						Options: "i",
+					},
+				},
+			},
+		},
+	}
+
+	cursor, err := r.C.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	for cursor.Next(ctx) {
+		var product models.Product
+		cursor.Decode(&product)
+		products = append(products, product)
+	}
+
+	return products, nil
 }

@@ -71,3 +71,13 @@ func (s *service) Delete(id string) (*helper.Res, error) {
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
 }
+
+func (s *service) Search(query string) (*helper.Res, error) {
+	data, err := s.repository.Search(query)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}

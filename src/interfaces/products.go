@@ -12,6 +12,7 @@ type ProductRepository interface {
 	Insert(user *models.Product) (*mongo.InsertOneResult, error)
 	Update(id string, product *models.Product) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
+	Search(query string) ([]models.Product, error)
 }
 
 type ProductService interface {
@@ -20,4 +21,5 @@ type ProductService interface {
 	Insert(product *models.Product) (*helper.Res, error)
 	Update(id string, product *models.Product) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
+	Search(query string) (*helper.Res, error)
 }

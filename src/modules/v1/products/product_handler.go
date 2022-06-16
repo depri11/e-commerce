@@ -17,7 +17,7 @@ func NewHandler(service interfaces.ProductService) *handler {
 	return &handler{service}
 }
 
-func (h *handler) GetProducts(c echo.Context) error {
+func (h *handler) GetAllProducts(c echo.Context) error {
 	data, err := h.service.FindAll()
 	if err != nil {
 		fmt.Println(err)
@@ -27,7 +27,7 @@ func (h *handler) GetProducts(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
-func (h *handler) GetProduct(c echo.Context) error {
+func (h *handler) GetProductDetails(c echo.Context) error {
 	id := c.Param("id")
 	data, err := h.service.GetUserID(id)
 	if err != nil {
@@ -76,4 +76,14 @@ func (h *handler) DeletProduct(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, res)
+}
+
+func (h *handler) QueryProducts(c echo.Context) error {
+	search := c.QueryParam("s")
+	data, err := h.service.Search(search)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, data)
 }
