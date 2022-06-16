@@ -13,6 +13,7 @@ type ProductRepository interface {
 	Update(id string, product *models.Product) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 	Search(page, search, sort string) ([]models.Product, error)
+	InsertReview(review *models.Review) (*mongo.InsertOneResult, error)
 }
 
 type ProductService interface {

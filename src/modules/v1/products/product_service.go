@@ -81,3 +81,13 @@ func (s *service) Search(page, search, sort string) (*helper.Res, error) {
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
 }
+
+func (s *service) CreateReview(id string, review *models.Review) (*helper.Res, error) {
+	data, err := s.repository.InsertReview(review)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}

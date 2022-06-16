@@ -49,6 +49,18 @@ func (r *repository) FindByID(id string) (*models.User, error) {
 	return user, nil
 }
 
+func (r *repository) FindByEmail(email string) (*models.User, error) {
+	ctx := context.TODO()
+	user := &models.User{}
+
+	err := r.C.FindOne(ctx, bson.M{"email": email}).Decode(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (r *repository) Insert(user *models.User) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
 	return r.C.InsertOne(ctx, user)

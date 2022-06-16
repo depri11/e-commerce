@@ -137,3 +137,8 @@ func (r *repository) Search(page, search, sort string) ([]models.Product, error)
 
 	return products, nil
 }
+
+func (r *repository) InsertReview(review *models.Review) (*mongo.InsertOneResult, error) {
+	ctx := context.TODO()
+	return r.C.InsertOne(ctx, review)
+}

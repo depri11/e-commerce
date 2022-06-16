@@ -39,6 +39,13 @@ func (s *service) GetUserID(id string) (*helper.Res, error) {
 func (s *service) Insert(user *models.User) (*helper.Res, error) {
 	user.CreatedAt = time.Now()
 	user.UpdatedAt = time.Now()
+
+	hashPass, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Password = hashPass
 	data, err := s.repository.Insert(user)
 	if err != nil {
 		return nil, err

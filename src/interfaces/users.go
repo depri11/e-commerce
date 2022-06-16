@@ -8,6 +8,7 @@ import (
 
 type UserRepository interface {
 	FindAll() ([]*models.User, error)
+	FindByEmail(email string) (*models.User, error)
 	FindByID(id string) (*models.User, error)
 	Insert(user *models.User) (*mongo.InsertOneResult, error)
 	Update(id string, user *models.User) (*mongo.UpdateResult, error)
