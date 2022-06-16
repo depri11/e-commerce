@@ -6,6 +6,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -35,7 +36,44 @@ func (r *repository) FindAll() ([]*models.User, error) {
 	return users, nil
 }
 
+func (r *repository) FindByID(id string) (*models.User, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	user := &models.User{}
+
+	err = r.C.FindOne(ctx, bson.M{"_id": p}).Decode(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (r *repository) Insert(user *models.User) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
 	return r.C.InsertOne(ctx, user)
+}
+
+func (r *repository) Update(id string, user *models.User) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+}
+
+func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	return r.C.DeleteOne(ctx, bson.M{"_id": p})
 }
