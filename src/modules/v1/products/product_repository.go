@@ -1,7 +1,8 @@
-package users
+package products
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,55 +14,60 @@ type repository struct {
 	C *mongo.Collection
 }
 
-func NewRepository(c *mongo.Collection) *repository {
-	return &repository{C: c}
+func NewRepository(C *mongo.Collection) *repository {
+	return &repository{C}
 }
 
-func (r *repository) FindAll() ([]*models.User, error) {
+func (r *repository) FindAll() ([]models.Product, error) {
 	ctx := context.TODO()
-	cursor, err := r.C.Find(ctx, bson.M{})
+
+	cur, err := r.C.Find(ctx, bson.M{})
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 
-	var users []*models.User
-	if err := cursor.All(ctx, &users); err != nil {
+	var products []models.Product
+
+	err = cur.All(ctx, &products)
+	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 
-	return users, nil
+	return products, nil
 }
 
-func (r *repository) FindByID(id string) (*models.User, error) {
+func (r *repository) FindByID(id string) (*models.Product, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	user := &models.User{}
+	product := &models.Product{}
 
-	err = r.C.FindOne(ctx, bson.M{"_id": p}).Decode(user)
+	err = r.C.FindOne(ctx, bson.M{"_id": p}).Decode(product)
 	if err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return product, nil
 }
 
-func (r *repository) Insert(user *models.User) (*mongo.InsertOneResult, error) {
+func (r *repository) Insert(user *models.Product) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
 	return r.C.InsertOne(ctx, user)
 }
 
-func (r *repository) Update(id string, user *models.User) (*mongo.UpdateResult, error) {
+func (r *repository) Update(id string, product *models.Product) (*mongo.UpdateResult, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": product})
 }
 
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {

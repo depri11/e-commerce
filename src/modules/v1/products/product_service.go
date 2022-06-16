@@ -1,6 +1,7 @@
-package users
+package products
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -9,20 +10,21 @@ import (
 )
 
 type service struct {
-	repository interfaces.UserRepository
+	repository interfaces.ProductRepository
 }
 
-func NewService(repository interfaces.UserRepository) *service {
-	return &service{repository}
+func NewService(repo interfaces.ProductRepository) *service {
+	return &service{repo}
 }
 
 func (s *service) FindAll() (*helper.Res, error) {
-	user, err := s.repository.FindAll()
+	product, err := s.repository.FindAll()
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 
-	res := helper.ResponseJSON("Success", 200, "OK", user)
+	res := helper.ResponseJSON("Success", 200, "OK", product)
 	return res, nil
 }
 
@@ -36,10 +38,10 @@ func (s *service) GetUserID(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Insert(user *models.User) (*helper.Res, error) {
-	user.CreatedAt = time.Now()
-	user.UpdatedAt = time.Now()
-	data, err := s.repository.Insert(user)
+func (s *service) Insert(product *models.Product) (*helper.Res, error) {
+	product.CreatedAt = time.Now()
+	product.UpdatedAt = time.Now()
+	data, err := s.repository.Insert(product)
 	if err != nil {
 		return nil, err
 	}
@@ -48,10 +50,10 @@ func (s *service) Insert(user *models.User) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Update(id string, user *models.User) (*helper.Res, error) {
-	user.UpdatedAt = time.Now()
+func (s *service) Update(id string, product *models.Product) (*helper.Res, error) {
+	product.UpdatedAt = time.Now()
 
-	data, err := s.repository.Update(id, user)
+	data, err := s.repository.Update(id, product)
 	if err != nil {
 		return nil, err
 	}
