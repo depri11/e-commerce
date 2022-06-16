@@ -118,29 +118,12 @@ func (r *repository) Search(page, search, sort string) ([]models.Product, error)
 	findOptions.SetSkip((int64(p) - 1) * perPage)
 	findOptions.SetLimit(3)
 
+	// total, err := r.C.CountDocuments(ctx, filter)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
 	cursor, err := r.C.Find(ctx, filter, findOptions)
-	if err != nil {
-		return nil, err
-	}
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		var product models.Product
-		cursor.Decode(&product)
-		products = append(products, product)
-	}
-
-	return products, nil
-}
-
-func (r *repository) Sort(query string) ([]models.Product, error) {
-	ctx := context.TODO()
-
-	var products []models.Product
-
-	filter := bson.M{}
-
-	cursor, err := r.C.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
