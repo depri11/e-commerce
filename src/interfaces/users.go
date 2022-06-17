@@ -14,6 +14,7 @@ type UserRepository interface {
 	Update(id string, user *models.User) (*mongo.UpdateResult, error)
 	UpdateProfile(id string, user *models.UpdateProfile) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
+	FindByResetPassToken(token string) (*models.User, error)
 }
 
 type UserService interface {
@@ -23,4 +24,5 @@ type UserService interface {
 	Update(id string, user *models.User) (*helper.Res, error)
 	UpdateProfile(id string, user *models.UpdateProfile) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
+	ForgotPassword(token string, user *models.User) (*helper.Res, error)
 }

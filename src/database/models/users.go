@@ -13,11 +13,11 @@ type User struct {
 	Gender   string             `json:"gender,omitempty" bson:"gender"`
 	Password string             `json:"password,omitempty" bson:"password"`
 	// Avatar          Avatar    `json:"avatar" bson:"avatar,omitempty"`
-	Role      string    `json:"role,omitempty" bson:"role"`
-	CreatedAt time.Time `json:"created_at" bson:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" bson:"updated_at"`
-	// ResetPassToken  string    `json:"reset_pass_token" bson:"reset_pass_token,omitempty"`
-	// ResetPassExpire time.Time `json:"reset_pass_expire" bson:"reset_pass_expire,omitempty"`
+	Role            string    `json:"role,omitempty" bson:"role"`
+	CreatedAt       time.Time `json:"created_at" bson:"created_at"`
+	UpdatedAt       time.Time `json:"updated_at" bson:"updated_at"`
+	ResetPassToken  string    `json:"reset_pass_token" bson:"reset_pass_token,omitempty"`
+	ResetPassExpire time.Time `json:"reset_pass_expire" bson:"reset_pass_expire,omitempty"`
 }
 
 type UpdateProfile struct {

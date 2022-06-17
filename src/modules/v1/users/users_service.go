@@ -100,3 +100,13 @@ func (s *service) Delete(id string) (*helper.Res, error) {
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
 }
+
+func (s *service) ForgotPassword(token string, user *models.User) (*helper.Res, error) {
+	data, err := s.repository.FindByResetPassToken(token)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}

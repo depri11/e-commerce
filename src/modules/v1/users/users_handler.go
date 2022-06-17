@@ -101,3 +101,18 @@ func (h *handler) DeletUser(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h *handler) ForgotPassword(c echo.Context) error {
+	token := c.Param("token")
+	var user models.User
+	if err := c.Bind(&user); err != nil {
+		return err
+	}
+
+	res, err := h.service.ForgotPassword(token, &user)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
