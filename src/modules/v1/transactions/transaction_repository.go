@@ -84,9 +84,11 @@ func (r *repository) FindByUserId(id string) (*models.Transaction, error) {
 	return transaction, nil
 }
 
-func (r *repository) Insert(transaction *models.Transaction) (*mongo.InsertOneResult, error) {
+func (r *repository) Insert(transaction *models.Transaction) (string, error) {
 	ctx := context.TODO()
-	return r.C.InsertOne(ctx, transaction)
+	oid, _ := r.C.InsertOne(ctx, transaction)
+	id := oid.InsertedID.(primitive.ObjectID).Hex()
+	return id, nil
 }
 
 func (r *repository) Update(id string, user *models.Transaction) (*models.Transaction, error) {

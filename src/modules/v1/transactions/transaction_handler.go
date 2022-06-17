@@ -28,11 +28,13 @@ func (h *handler) GetTransactions(c echo.Context) error {
 func (h *handler) CreateTransaction(c echo.Context) error {
 	var transaction models.Transaction
 
+	id := c.Request().Header.Get("user_id")
+
 	if err := c.Bind(&transaction); err != nil {
 		return err
 	}
 
-	data, err := h.service.Create(&transaction)
+	data, err := h.service.Create(id, &transaction)
 	if err != nil {
 		return err
 	}

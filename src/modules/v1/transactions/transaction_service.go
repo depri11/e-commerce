@@ -11,10 +11,11 @@ import (
 type service struct {
 	repository        interfaces.TransactionRepository
 	productRepository interfaces.ProductRepository
+	paymentService    interfaces.PaymentService
 }
 
-func NewService(repository interfaces.TransactionRepository, productRepository interfaces.ProductRepository) *service {
-	return &service{repository, productRepository}
+func NewService(repository interfaces.TransactionRepository, productRepository interfaces.ProductRepository, paymentService interfaces.PaymentService) *service {
+	return &service{repository, productRepository, paymentService}
 }
 
 func (s *service) GetAll() (*helper.Res, error) {
@@ -57,11 +58,30 @@ func (s *service) GetByUserID(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Create(transaction *models.Transaction) (*helper.Res, error) {
+func (s *service) Create(id string, transaction *models.Transaction) (*helper.Res, error) {
+	transaction.UserID = id
+	transaction.Status = "pending"
 	transaction.CreatedAt = time.Now()
 	transaction.UpdatedAt = time.Now()
 
-	data, err := s.repository.Insert(transaction)
+	transactionID, err := s.repository.Insert(transaction)
+	if err != nil {
+		return nil, err
+	}
+
+	paymentTransaction := models.Payment{
+		ID:     transactionID,
+		Amount: transaction.Amount,
+	}
+
+	paymentUrl, err := s.paymentService.GetPaymentURL(paymentTransaction, transaction.User)
+	if err != nil {
+		return nil, err
+	}
+
+	transaction.PaymentURL = paymentUrl
+
+	data, err := s.repository.Update(transactionID, transaction)
 	if err != nil {
 		return nil, err
 	}

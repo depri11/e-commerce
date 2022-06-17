@@ -1,5 +1,7 @@
 package interfaces
 
+import "github.com/depri11/e-commerce/src/database/models"
+
 type PaymentService interface {
-	GetPaymentURL()
+	GetPaymentURL(transaction models.Payment, user models.User) (string, error)
 }
