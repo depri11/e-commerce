@@ -1,6 +1,7 @@
 package users
 
 import (
+	"github.com/depri11/e-commerce/src/middleware"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -12,9 +13,13 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	service := NewService(repository)
 	handler := NewHandler(service)
 
-	e.GET("/users", handler.FindAll)
-	e.GET("/users/:id", handler.GetUserID)
-	e.POST("/users", handler.Register)
-	e.PUT("/users/:id", handler.UpdateUser)
-	e.DELETE("/users/:id", handler.DeletUser)
+	e.POST("/register", handler.Register)
+
+	e.GET("/me", handler.GetUserDetails, middleware.CheckAuth)
+	e.PUT("/me/update", handler.UpdateProfile, middleware.CheckAuth)
+
+	e.GET("/admin/users", handler.FindAll, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.GET("/admin/:id", handler.GetUserID, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.PUT("/admin/users/:id", handler.UpdateUser, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.DELETE("/admin/users/:id", handler.DeletUser, middleware.CheckAuth, middleware.CheckRoleAdmin)
 }

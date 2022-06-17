@@ -20,6 +20,15 @@ type User struct {
 	// ResetPassExpire time.Time `json:"reset_pass_expire" bson:"reset_pass_expire,omitempty"`
 }
 
+type UpdateProfile struct {
+	Name     string `json:"name,omitempty" bson:"name"`
+	Email    string `json:"email,omitempty" bson:"email"`
+	Password string `json:"password,omitempty" bson:"password"`
+	Gender   string `json:"gender,omitempty" bson:"gender"`
+	// Avatar          Avatar    `json:"avatar" bson:"avatar,omitempty"`
+	UpdatedAt time.Time `json:"updated_at" bson:"updated_at"`
+}
+
 type Avatar struct {
 	ID  primitive.ObjectID `json:"_id,omitempty" bson:"_id"`
 	Url string             `json:"url,omitempty" bson:"url"`

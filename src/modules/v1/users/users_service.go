@@ -57,8 +57,32 @@ func (s *service) Insert(user *models.User) (*helper.Res, error) {
 
 func (s *service) Update(id string, user *models.User) (*helper.Res, error) {
 	user.UpdatedAt = time.Now()
+	hash, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Password = hash
 
 	data, err := s.repository.Update(id, user)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}
+
+func (s *service) UpdateProfile(id string, user *models.UpdateProfile) (*helper.Res, error) {
+	user.UpdatedAt = time.Now()
+	hash, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Password = hash
+
+	data, err := s.repository.UpdateProfile(id, user)
 	if err != nil {
 		return nil, err
 	}

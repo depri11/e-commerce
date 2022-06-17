@@ -12,6 +12,7 @@ type UserRepository interface {
 	FindByID(id string) (*models.User, error)
 	Insert(user *models.User) (*mongo.InsertOneResult, error)
 	Update(id string, user *models.User) (*mongo.UpdateResult, error)
+	UpdateProfile(id string, user *models.UpdateProfile) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 }
 
@@ -20,5 +21,6 @@ type UserService interface {
 	GetUserID(id string) (*helper.Res, error)
 	Insert(user *models.User) (*helper.Res, error)
 	Update(id string, user *models.User) (*helper.Res, error)
+	UpdateProfile(id string, user *models.UpdateProfile) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
 }

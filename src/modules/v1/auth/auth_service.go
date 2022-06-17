@@ -18,14 +18,14 @@ func NewService(auth interfaces.UserRepository) *service {
 	return &service{auth}
 }
 
-func (s *service) Login(user models.User) (*helper.Res, error) {
+func (s *service) Login(user models.User) (string, error) {
 	data, err := s.auth.FindByEmail(user.Email)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if !helper.CheckPassword(data.Password, user.Password) {
-		return nil, err
+		return "", err
 	}
 
 	id := data.ID.Hex()
@@ -33,9 +33,8 @@ func (s *service) Login(user models.User) (*helper.Res, error) {
 	token := helper.NewToken(id, data.Email, data.Name, data.Role)
 	tokens, err := token.Create()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	response := helper.ResponseJSON("Success", 200, "OK", tokenResponse{Token: tokens})
-	return response, nil
+	return tokens, nil
 }

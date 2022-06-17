@@ -14,5 +14,6 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	handler := NewHandler(service)
 
 	e.POST("/login", handler.SigIn)
+	e.GET("/logout", handler.Logout)
 
 }

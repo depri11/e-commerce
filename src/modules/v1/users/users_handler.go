@@ -35,6 +35,32 @@ func (h *handler) GetUserID(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
+func (h *handler) GetUserDetails(c echo.Context) error {
+	id := c.Request().Header.Get("user_id")
+	data, err := h.service.GetUserID(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) UpdateProfile(c echo.Context) error {
+	id := c.Request().Header.Get("user_id")
+	var user models.UpdateProfile
+
+	if err := c.Bind(&user); err != nil {
+		return err
+	}
+
+	res, err := h.service.UpdateProfile(id, &user)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
 func (h *handler) Register(c echo.Context) error {
 	var user models.User
 	if err := c.Bind(&user); err != nil {

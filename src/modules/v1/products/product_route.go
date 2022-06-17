@@ -15,9 +15,9 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 
 	e.GET("/products", handler.QueryProducts)
 	e.GET("/products/all", handler.GetAllProducts, middleware.CheckAuth)
-
 	e.GET("/products/:id", handler.GetProductDetails)
-	e.POST("/products", handler.CreateProduct, middleware.CheckAuth)
-	e.PUT("/products/:id", handler.UpdateProduct, middleware.CheckAuth)
-	e.DELETE("/products/:id", handler.DeletProduct, middleware.CheckAuth)
+
+	e.POST("/admin/products", handler.CreateProduct, middleware.CheckAuth)
+	e.PUT("/admin/products/:id", handler.UpdateProduct, middleware.CheckAuth)
+	e.DELETE("/admin/products/:id", handler.DeletProduct, middleware.CheckAuth)
 }

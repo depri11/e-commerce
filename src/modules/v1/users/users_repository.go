@@ -76,6 +76,16 @@ func (r *repository) Update(id string, user *models.User) (*mongo.UpdateResult, 
 	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
 }
 
+func (r *repository) UpdateProfile(id string, user *models.UpdateProfile) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+}
+
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
