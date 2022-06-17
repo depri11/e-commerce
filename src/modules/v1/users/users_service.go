@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -111,6 +112,34 @@ func (s *service) ForgotPassword(user *models.User) (*helper.Res, error) {
 
 	data.ResetPassToken = token
 	data.ResetPassExpire = time.Now().Add(time.Hour * 1)
+
+	id := data.ID.Hex()
+
+	fmt.Println("http://localhost:4000/password/reset/" + token)
+
+	r, err := s.repository.Update(id, data)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", r)
+	return res, nil
+}
+
+func (s *service) ResetPassword(token string, user *models.User) (*helper.Res, error) {
+	data, err := s.repository.FindByResetPassToken(token)
+	if err != nil {
+		return nil, err
+	}
+
+	hash, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	data.Password = hash
+	data.ResetPassToken = ""
+	data.ResetPassExpire = time.Now()
 
 	id := data.ID.Hex()
 

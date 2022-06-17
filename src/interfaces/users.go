@@ -25,4 +25,5 @@ type UserService interface {
 	UpdateProfile(id string, user *models.UpdateProfile) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
 	ForgotPassword(user *models.User) (*helper.Res, error)
+	ResetPassword(token string, user *models.User) (*helper.Res, error)
 }

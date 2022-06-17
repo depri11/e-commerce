@@ -115,3 +115,18 @@ func (h *handler) ForgotPassword(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h *handler) ResetPassword(c echo.Context) error {
+	var user models.User
+	token := c.Param("token")
+	if err := c.Bind(&user); err != nil {
+		return err
+	}
+
+	res, err := h.service.ResetPassword(token, &user)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
