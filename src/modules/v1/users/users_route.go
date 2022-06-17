@@ -18,7 +18,7 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	e.GET("/me", handler.GetUserDetails, middleware.CheckAuth)
 	e.PUT("/me/update", handler.UpdateProfile, middleware.CheckAuth)
 
-	e.POST("/forgot/password", handler.ForgotPassword)
+	e.POST("/password/forgot", handler.ForgotPassword)
 	// e.PUT("/forgot/password/:token", handler.ResetPassword)
 
 	e.GET("/admin/users", handler.FindAll, middleware.CheckAuth, middleware.CheckRoleAdmin)

@@ -101,12 +101,24 @@ func (s *service) Delete(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) ForgotPassword(token string, user *models.User) (*helper.Res, error) {
-	data, err := s.repository.FindByResetPassToken(token)
+func (s *service) ForgotPassword(user *models.User) (*helper.Res, error) {
+	data, err := s.repository.FindByEmail(user.Email)
 	if err != nil {
 		return nil, err
 	}
 
-	res := helper.ResponseJSON("Success", 200, "OK", data)
+	token := helper.ResetPass()
+
+	data.ResetPassToken = token
+	data.ResetPassExpire = time.Now().Add(time.Hour * 1)
+
+	id := data.ID.Hex()
+
+	r, err := s.repository.Update(id, data)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", r)
 	return res, nil
 }
