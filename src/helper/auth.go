@@ -12,14 +12,16 @@ type claims struct {
 	Id    string `json:"_id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.StandardClaims
 }
 
-func NewToken(id, email, name string) *claims {
+func NewToken(id, email, name, role string) *claims {
 	return &claims{
 		Id:    id,
 		Email: email,
 		Name:  name,
+		Role:  role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 5).Unix(),
 		},
@@ -40,7 +42,6 @@ func CheckToken(token string) (*claims, error) {
 		return nil, err
 	}
 
-	// claims, ok := tokens.Claims.(*claims)
 	claims, ok := tokens.Claims.(*claims)
 	if !ok {
 		err = errors.New("couldn't parse claims")

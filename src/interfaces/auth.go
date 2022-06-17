@@ -6,5 +6,5 @@ import (
 )
 
 type AuthService interface {
-	Login(user models.User) *helper.Res
+	Login(user models.User) (*helper.Res, error)
 }

@@ -10,10 +10,6 @@ type tokenResponse struct {
 	Token string `json:"token"`
 }
 
-type Service interface {
-	Login(user models.User) *helper.Res
-}
-
 type service struct {
 	auth interfaces.UserRepository
 }
@@ -22,27 +18,24 @@ func NewService(auth interfaces.UserRepository) *service {
 	return &service{auth}
 }
 
-func (s *service) Login(user models.User) *helper.Res {
+func (s *service) Login(user models.User) (*helper.Res, error) {
 	data, err := s.auth.FindByEmail(user.Email)
 	if err != nil {
-		response := helper.ResponseJSON("User Not Found", 404, "error", nil)
-		return response
+		return nil, err
 	}
 
 	if !helper.CheckPassword(data.Password, user.Password) {
-		response := helper.ResponseJSON("Internal Server Error", 500, "error", nil)
-		return response
+		return nil, err
 	}
 
 	id := data.ID.Hex()
 
-	token := helper.NewToken(id, data.Email, data.Name)
+	token := helper.NewToken(id, data.Email, data.Name, data.Role)
 	tokens, err := token.Create()
 	if err != nil {
-		response := helper.ResponseJSON("Internal Server Error", 500, "error", nil)
-		return response
+		return nil, err
 	}
 
 	response := helper.ResponseJSON("Success", 200, "OK", tokenResponse{Token: tokens})
-	return response
+	return response, nil
 }

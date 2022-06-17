@@ -12,7 +12,7 @@ type handler struct {
 	service interfaces.AuthService
 }
 
-func NewHandler(service Service) *handler {
+func NewHandler(service interfaces.AuthService) *handler {
 	return &handler{service}
 }
 
@@ -22,6 +22,10 @@ func (h *handler) SigIn(c echo.Context) error {
 		return err
 	}
 
-	res := h.service.Login(user)
-	return c.JSON(http.StatusOK, res.Data)
+	res, err := h.service.Login(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
