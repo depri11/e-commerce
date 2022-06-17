@@ -19,3 +19,10 @@ type Transaction struct {
 	CreatedAt  time.Time          `json:"created_at" bson:"created_at"`
 	UpdatedAt  time.Time          `json:"updated_at" bson:"updated_at"`
 }
+
+type TransactionNotification struct {
+	TransactionStatus string `json:"status"`
+	OrderID           string `json:"order_id"`
+	PaymentType       string `json:"payment_type"`
+	FraudStatus       string `json:"fraud_status"`
+}
