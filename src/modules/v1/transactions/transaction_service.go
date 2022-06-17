@@ -1,6 +1,8 @@
 package transaction
 
 import (
+	"time"
+
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
 	"github.com/depri11/e-commerce/src/interfaces"
@@ -56,6 +58,9 @@ func (s *service) GetByUserID(id string) (*helper.Res, error) {
 }
 
 func (s *service) Create(transaction *models.Transaction) (*helper.Res, error) {
+	transaction.CreatedAt = time.Now()
+	transaction.UpdatedAt = time.Now()
+
 	data, err := s.repository.Insert(transaction)
 	if err != nil {
 		return nil, err
