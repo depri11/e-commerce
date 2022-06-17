@@ -13,7 +13,9 @@ type ProductRepository interface {
 	Update(id string, product *models.Product) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 	Search(page, search, sort string) ([]models.Product, error)
+	FindAllReview() ([]models.Review, error)
 	InsertReview(review *models.Review) (*mongo.InsertOneResult, error)
+	DeleteReview(id string) (*mongo.DeleteResult, error)
 }
 
 type ProductService interface {
@@ -23,4 +25,7 @@ type ProductService interface {
 	Update(id string, product *models.Product) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
 	Search(page, search, sort string) (*helper.Res, error)
+	GetReviews() (*helper.Res, error)
+	InsertReview(review *models.Review) (*helper.Res, error)
+	DeleteReview(id string) (*helper.Res, error)
 }

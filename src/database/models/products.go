@@ -49,9 +49,10 @@ type Logo struct {
 }
 
 type Review struct {
-	ID      primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	UserID  string             `json:"user_id" bson:"user_id"`
-	Name    string             `json:"name" bson:"name"`
-	Rating  float32            `json:"rating" bson:"rating"`
-	Comment string             `json:"comment" bson:"comment"`
+	ID        primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	UserID    string             `json:"user_id" bson:"user_id"`
+	ProductID string             `json:"product_id" bson:"product_id"`
+	Name      string             `json:"name" bson:"name"`
+	Rating    float32            `json:"rating" bson:"rating"`
+	Comment   string             `json:"comment" bson:"comment"`
 }

@@ -82,8 +82,28 @@ func (s *service) Search(page, search, sort string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) CreateReview(id string, review *models.Review) (*helper.Res, error) {
+func (s *service) InsertReview(review *models.Review) (*helper.Res, error) {
 	data, err := s.repository.InsertReview(review)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}
+
+func (s *service) GetReviews() (*helper.Res, error) {
+	data, err := s.repository.FindAllReview()
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", data)
+	return res, nil
+}
+
+func (s *service) DeleteReview(id string) (*helper.Res, error) {
+	data, err := s.repository.DeleteReview(id)
 	if err != nil {
 		return nil, err
 	}

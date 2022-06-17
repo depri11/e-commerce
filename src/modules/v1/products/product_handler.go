@@ -105,3 +105,47 @@ func (h *handler) QueryProducts(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, data)
 }
+
+func (h *handler) CreateReview(c echo.Context) error {
+	user_id := c.Request().Header.Get("user_id")
+	name := c.Request().Header.Get("user_name")
+
+	id := c.Param("id")
+
+	var review models.Review
+
+	if err := c.Bind(&review); err != nil {
+		return err
+	}
+
+	review.UserID = user_id
+	review.ProductID = id
+	review.Name = name
+
+	res, err := h.service.InsertReview(&review)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h *handler) GetAllReviews(c echo.Context) error {
+	data, err := h.service.GetReviews()
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) QueryDeleteReview(c echo.Context) error {
+	id := c.QueryParam("id")
+
+	data, err := h.service.DeleteReview(id)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, data)
+}

@@ -142,3 +142,30 @@ func (r *repository) InsertReview(review *models.Review) (*mongo.InsertOneResult
 	ctx := context.TODO()
 	return r.C.InsertOne(ctx, review)
 }
+
+func (r *repository) FindAllReview() ([]models.Review, error) {
+	ctx := context.TODO()
+
+	var reviews []models.Review
+
+	cursor, _ := r.C.Find(ctx, bson.M{})
+	defer cursor.Close(ctx)
+
+	for cursor.Next(ctx) {
+		var review models.Review
+		cursor.Decode(&review)
+		reviews = append(reviews, review)
+	}
+
+	return reviews, nil
+}
+
+func (r *repository) DeleteReview(id string) (*mongo.DeleteResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	return r.C.DeleteOne(ctx, bson.M{"_id": p})
+}
