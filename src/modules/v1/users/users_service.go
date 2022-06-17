@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -111,7 +112,7 @@ func (s *service) ForgotPassword(user *models.User) (*helper.Res, error) {
 	token := helper.ResetPass()
 
 	data.ResetPassToken = token
-	data.ResetPassExpire = time.Now().Add(time.Hour * 1)
+	data.ResetPassExpire = time.Now().Add(time.Second * 5)
 
 	id := data.ID.Hex()
 
@@ -130,6 +131,10 @@ func (s *service) ResetPassword(token string, user *models.User) (*helper.Res, e
 	data, err := s.repository.FindByResetPassToken(token)
 	if err != nil {
 		return nil, err
+	}
+
+	if data.ResetPassExpire.Before(time.Now()) {
+		return nil, errors.New("token expired")
 	}
 
 	hash, err := helper.HashPassword(user.Password)
