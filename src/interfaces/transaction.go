@@ -20,5 +20,4 @@ type TransactionService interface {
 	GetByProductID(id string) (*helper.Res, error)
 	GetByUserID(id string) (*helper.Res, error)
 	Create(id string, transaction *models.Transaction) (*helper.Res, error)
-	ProcessPayment(input *models.TransactionNotification) (*helper.Res, error)
 }

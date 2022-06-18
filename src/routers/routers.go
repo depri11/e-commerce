@@ -7,6 +7,7 @@ import (
 	transaction "github.com/depri11/e-commerce/src/modules/v1/transactions"
 	"github.com/depri11/e-commerce/src/modules/v1/users"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func SetupRouters() (*echo.Echo, error) {
@@ -15,6 +16,8 @@ func SetupRouters() (*echo.Echo, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	e.Use(middleware.CORS())
 
 	api := e.Group("/api/v1")
 	auth.NewRouter(api, db)

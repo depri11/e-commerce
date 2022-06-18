@@ -13,9 +13,9 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 
 	repository := NewRepository(c)
 	repositoryProduct := products.NewRepository(db.Collection("products"))
-	paymentService := payment.NewService()
+	paymentService := payment.NewService(repository, repositoryProduct)
 	service := NewService(repository, repositoryProduct, paymentService)
-	handler := NewHandler(service)
+	handler := NewHandler(service, paymentService)
 
 	e.GET("/product/:id/transaction", handler.GetProductTransactions, middleware.CheckAuth)
 

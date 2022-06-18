@@ -9,11 +9,12 @@ import (
 )
 
 type handler struct {
-	service interfaces.TransactionService
+	service        interfaces.TransactionService
+	paymentService interfaces.PaymentService
 }
 
-func NewHandler(service interfaces.TransactionService) *handler {
-	return &handler{service}
+func NewHandler(service interfaces.TransactionService, paymentService interfaces.PaymentService) *handler {
+	return &handler{service, paymentService}
 }
 
 func (h *handler) GetProductTransactions(c echo.Context) error {
@@ -62,7 +63,7 @@ func (h *handler) GetNotification(c echo.Context) error {
 		return err
 	}
 
-	data, err := h.service.ProcessPayment(&input)
+	data, err := h.paymentService.ProcessPayment(&input)
 	if err != nil {
 		return err
 	}

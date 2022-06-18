@@ -103,28 +103,3 @@ func (s *service) Create(id string, transaction *models.Transaction) (*helper.Re
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
 }
-
-func (s *service) ProcessPayment(input *models.TransactionNotification) (*helper.Res, error) {
-	transaction, err := s.repository.FindByID(input.OrderID)
-	if err != nil {
-		return nil, err
-	}
-
-	if input.PaymentType == "credit_card" && input.TransactionStatus == "capture" && input.FraudStatus == "accept" {
-		transaction.Status = "paid"
-	} else if input.TransactionStatus == "settlement" {
-		transaction.Status = "paid"
-	} else if input.TransactionStatus == "deny" || input.TransactionStatus == "expired" || input.TransactionStatus == "cancel" {
-		transaction.Status = "cancelled"
-	}
-
-	id := transaction.ID.Hex()
-
-	updateTransaction, err := s.repository.Update(id, transaction)
-	if err != nil {
-		return nil, err
-	}
-
-	res := helper.ResponseJSON("Success", 200, "OK", updateTransaction)
-	return res, nil
-}
