@@ -10,7 +10,7 @@ import (
 )
 
 func SetupDB() (*mongo.Database, error) {
-	clientOption := options.Client().ApplyURI("mongodb+srv://dev:dev@cluster0.4uas9.mongodb.net/?retryWrites=true&w=majority")
+	clientOption := options.Client().ApplyURI("mongodb://localhost:27017/")
 
 	db, err := mongo.NewClient(clientOption)
 	if err != nil {

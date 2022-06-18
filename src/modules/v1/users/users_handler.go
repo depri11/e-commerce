@@ -47,7 +47,7 @@ func (h *handler) GetUserDetails(c echo.Context) error {
 
 func (h *handler) UpdateProfile(c echo.Context) error {
 	id := c.Request().Header.Get("user_id")
-	var user models.UpdateProfile
+	var user models.User
 
 	if err := c.Bind(&user); err != nil {
 		return err

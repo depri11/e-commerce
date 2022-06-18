@@ -13,8 +13,8 @@ type repository struct {
 	C *mongo.Collection
 }
 
-func NewRepository(c *mongo.Collection) *repository {
-	return &repository{C: c}
+func NewRepository(C *mongo.Collection) *repository {
+	return &repository{C}
 }
 
 func (r *repository) FindAll() ([]*models.User, error) {
@@ -73,29 +73,44 @@ func (r *repository) FindByResetPassToken(token string) (*models.User, error) {
 	return user, nil
 }
 
-func (r *repository) Insert(user *models.User) (*mongo.InsertOneResult, error) {
+func (r *repository) Insert(user *models.User) (*models.User, error) {
 	ctx := context.TODO()
-	return r.C.InsertOne(ctx, user)
+	_, err := r.C.InsertOne(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
-func (r *repository) Update(id string, user *models.User) (*mongo.UpdateResult, error) {
+func (r *repository) Update(id string, user *models.User) (*models.User, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+	_, err = r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
-func (r *repository) UpdateProfile(id string, user *models.UpdateProfile) (*mongo.UpdateResult, error) {
+func (r *repository) UpdateProfile(id string, user *models.User) (*models.User, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+	_, err = r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {

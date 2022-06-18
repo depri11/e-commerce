@@ -75,7 +75,7 @@ func (s *service) Update(id string, user *models.User) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) UpdateProfile(id string, user *models.UpdateProfile) (*helper.Res, error) {
+func (s *service) UpdateProfile(id string, user *models.User) (*helper.Res, error) {
 	user.UpdatedAt = time.Now()
 	hash, err := helper.HashPassword(user.Password)
 	if err != nil {
