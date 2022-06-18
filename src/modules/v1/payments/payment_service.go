@@ -12,12 +12,30 @@ func NewService() *service {
 	return &service{}
 }
 
-func (s *service) GetPaymentURL(transaction models.Payment, user models.User) (string, error) {
-	id := transaction.ID
+// func GenerateSnapReq(transaction *models.Transaction, user *models.User) *snap.Request {
+// 	var s = snap.Client
+// 	s.New("YOUR-SERVER-KEY", midtrans.Sandbox)
+
+// 	snapReq := &snap.Request{
+// 		TransactionDetails: midtrans.TransactionDetails{
+// 			OrderID:  transaction.Code,
+// 			GrossAmt: int64(transaction.Amount),
+// 		},
+// 		CustomerDetail: &midtrans.CustomerDetails{
+// 			FName: user.Name,
+// 			Email: user.Email,
+// 		},
+// 	}
+
+// 	return snapReq
+// }
+
+func (s *service) GetPaymentURL(transaction *models.Transaction, user *models.User) (string, error) {
+	id := transaction.ID.Hex()
 
 	midclient := midtrans.NewClient()
-	midclient.ServerKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
-	midclient.ClientKey = "SB-Mid-server-Dc-ShUJ8AJYb9EvWzoVZKCq0"
+	midclient.ClientKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
+	midclient.ServerKey = "SB-Mid-server-Dc-ShUJ8AJYb9EvWzoVZKCq0"
 	midclient.APIEnvType = midtrans.Sandbox
 
 	coreGateway := midtrans.SnapGateway{

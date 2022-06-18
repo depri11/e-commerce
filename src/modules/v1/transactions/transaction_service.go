@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -61,6 +62,7 @@ func (s *service) GetByUserID(id string) (*helper.Res, error) {
 func (s *service) Create(id string, transaction *models.Transaction) (*helper.Res, error) {
 	transaction.UserID = id
 	transaction.Status = "pending"
+	transaction.Code = "ORDER-001"
 	transaction.CreatedAt = time.Now()
 	transaction.UpdatedAt = time.Now()
 
@@ -69,19 +71,31 @@ func (s *service) Create(id string, transaction *models.Transaction) (*helper.Re
 		return nil, err
 	}
 
-	paymentTransaction := models.Payment{
-		ID:     transactionID,
-		Amount: transaction.Amount,
+	newTransaction, err := s.repository.FindByID(transactionID)
+	if err != nil {
+		return nil, err
 	}
 
-	paymentUrl, err := s.paymentService.GetPaymentURL(paymentTransaction, transaction.User)
+	transaction.User.Name = "Devri"
+	transaction.User.Email = "dev@gmail.com"
+
+	// paymentTransaction := models.Payment{
+	// 	ID:     transactionID,
+	// 	Amount: transaction.Amount,
+	// }
+
+	newTransaction.Amount = transaction.Amount
+
+	paymentUrl, err := s.paymentService.GetPaymentURL(newTransaction, &transaction.User)
 	if err != nil {
 		return nil, err
 	}
 
 	transaction.PaymentURL = paymentUrl
 
-	data, err := s.repository.Update(transactionID, transaction)
+	fmt.Println(paymentUrl)
+
+	data, err := s.repository.Update(newTransaction.ID.Hex(), transaction)
 	if err != nil {
 		return nil, err
 	}

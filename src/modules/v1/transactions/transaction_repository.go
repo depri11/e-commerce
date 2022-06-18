@@ -51,15 +51,10 @@ func (r *repository) FindByID(id string) (*models.Transaction, error) {
 }
 
 func (r *repository) FindByProductId(id string) (*models.Transaction, error) {
-	p, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
 	ctx := context.TODO()
 	transaction := &models.Transaction{}
 
-	err = r.C.FindOne(ctx, bson.M{"product_id": p}).Decode(transaction)
+	err := r.C.FindOne(ctx, bson.M{"product_id": id}).Decode(transaction)
 	if err != nil {
 		return nil, err
 	}
@@ -67,21 +62,20 @@ func (r *repository) FindByProductId(id string) (*models.Transaction, error) {
 	return transaction, nil
 }
 
-func (r *repository) FindByUserId(id string) (*models.Transaction, error) {
-	p, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
+func (r *repository) FindByUserId(id string) ([]*models.Transaction, error) {
 	ctx := context.TODO()
-	transaction := &models.Transaction{}
+	var transactions []*models.Transaction
 
-	err = r.C.FindOne(ctx, bson.M{"user_id": p}).Decode(transaction)
+	cursor, err := r.C.Find(ctx, bson.M{"user_id": id})
 	if err != nil {
 		return nil, err
 	}
 
-	return transaction, nil
+	if err := cursor.All(ctx, &transactions); err != nil {
+		return nil, err
+	}
+
+	return transactions, nil
 }
 
 func (r *repository) Insert(transaction *models.Transaction) (string, error) {

@@ -16,8 +16,21 @@ func NewHandler(service interfaces.TransactionService) *handler {
 	return &handler{service}
 }
 
-func (h *handler) GetTransactions(c echo.Context) error {
-	data, err := h.service.GetAll()
+func (h *handler) GetProductTransactions(c echo.Context) error {
+	id := c.Param("id")
+
+	data, err := h.service.GetByProductID(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) GetUserTransactions(c echo.Context) error {
+	id := c.Request().Header.Get("user_id")
+
+	data, err := h.service.GetByUserID(id)
 	if err != nil {
 		return err
 	}

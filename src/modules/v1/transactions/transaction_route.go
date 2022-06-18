@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"github.com/depri11/e-commerce/src/middleware"
 	payment "github.com/depri11/e-commerce/src/modules/v1/payments"
 	"github.com/depri11/e-commerce/src/modules/v1/products"
 	"github.com/labstack/echo/v4"
@@ -16,8 +17,10 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	service := NewService(repository, repositoryProduct, paymentService)
 	handler := NewHandler(service)
 
-	e.GET("/transactions", handler.GetTransactions)
-	e.POST("/transaction/new", handler.CreateTransaction)
-	e.POST("/transaction/notification", handler.GetNotification)
+	e.GET("/product/:id/transaction", handler.GetProductTransactions, middleware.CheckAuth)
+
+	e.GET("/transactions", handler.GetUserTransactions, middleware.CheckAuth)
+	e.POST("/transaction/new", handler.CreateTransaction, middleware.CheckAuth)
+	e.POST("/transaction/notification", handler.GetNotification, middleware.CheckAuth)
 
 }
