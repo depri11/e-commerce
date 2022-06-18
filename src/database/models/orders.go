@@ -8,22 +8,18 @@ import (
 
 type Order struct {
 	ID           primitive.ObjectID `json:"_id" bson:"_id,omitempty"`
+	OrderID      string             `json:"order_id" bson:"order_id"`
 	ShippingInfo ShippingInfo       `json:"shipping_info" bson:"shippingInfo"`
-	Items        []string           `json:"items" bson:"items"`
+	Products     []string           `json:"items" bson:"items"`
 	UserID       string             `json:"user" bson:"user"`
-	PaymentInfo  PaymentInfo        `json:"payment_info" bson:"paymentInfo"`
 	TotalPrice   float64            `json:"total_price" bson:"totalPrice"`
 	Status       string             `json:"status" bson:"status"`
+	PaymentURL   string             `json:"payment_url" bson:"paymentUrl"`
 	PaidAt       time.Time          `json:"paid_at" bson:"paidAt"`
-	DeliveredAt  time.Time          `json:"delivered_at,omitempty" bson:"deliveredAt,omitempty"`
-	ShippedAt    time.Time          `json:"shipped_at,omitempty" bson:"shippedAt,omitempty"`
+	DeliveredAt  *time.Time         `json:"delivered_at,omitempty" bson:"deliveredAt,omitempty"`
+	ShippedAt    *time.Time         `json:"shipped_at,omitempty" bson:"shippedAt,omitempty"`
 	CreatedAt    time.Time          `json:"created_at" bson:"createdAt"`
 	UpdatedAt    time.Time          `json:"updated_at" bson:"updatedAt"`
-}
-
-type PaymentInfo struct {
-	PaymentID string `json:"payment_id" bson:"paymentID"`
-	Status    string `json:"status" bson:"status"`
 }
 
 type ShippingInfo struct {
@@ -33,4 +29,11 @@ type ShippingInfo struct {
 	Country string `json:"country" bson:"country"`
 	Pincode string `json:"pincode" bson:"pincode"`
 	Phone   string `json:"phone" bson:"phone"`
+}
+
+type OrderNotification struct {
+	OrderStatus string `json:"transaction_status"`
+	OrderID     string `json:"order_id"`
+	PaymentType string `json:"payment_type"`
+	FraudStatus string `json:"fraud_status"`
 }

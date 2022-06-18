@@ -1,4 +1,4 @@
-package payment
+package payments
 
 import (
 	"github.com/depri11/e-commerce/src/database/models"
@@ -8,16 +8,15 @@ import (
 )
 
 type service struct {
-	repository        interfaces.TransactionRepository
+	repository        interfaces.OrderRepository
 	productRepository interfaces.ProductRepository
 }
 
-func NewService(repository interfaces.TransactionRepository, productRepository interfaces.ProductRepository) *service {
+func NewService(repository interfaces.OrderRepository, productRepository interfaces.ProductRepository) *service {
 	return &service{repository, productRepository}
 }
 
-func (s *service) GetPaymentURL(transaction *models.Transaction, user *models.User) (string, error) {
-	id := transaction.ID.Hex()
+func (s *service) GetPaymentURL(orderID string, order *models.Order, user *models.User) (string, error) {
 
 	midclient := midtrans.NewClient()
 	midclient.ClientKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
@@ -28,14 +27,25 @@ func (s *service) GetPaymentURL(transaction *models.Transaction, user *models.Us
 		Client: midclient,
 	}
 
+	custAddress := &midtrans.CustAddress{
+		// FName:       "John",
+		// LName:       "Doe",
+		Phone:       order.ShippingInfo.Phone,
+		Address:     order.ShippingInfo.Address,
+		City:        order.ShippingInfo.City,
+		Postcode:    order.ShippingInfo.Pincode,
+		CountryCode: order.ShippingInfo.Country,
+	}
+
 	chargeReq := &midtrans.SnapReq{
 		CustomerDetail: &midtrans.CustDetail{
-			FName: user.Name,
-			Email: user.Email,
+			FName:    user.Name,
+			Email:    user.Email,
+			ShipAddr: custAddress,
 		},
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:  id,
-			GrossAmt: int64(transaction.Amount),
+			OrderID:  orderID,
+			GrossAmt: int64(order.TotalPrice),
 		},
 	}
 
@@ -47,39 +57,27 @@ func (s *service) GetPaymentURL(transaction *models.Transaction, user *models.Us
 	return snapTokenResp.RedirectURL, nil
 }
 
-func (s *service) ProcessPayment(input *models.TransactionNotification) (*helper.Res, error) {
-	transaction, err := s.repository.FindByID(input.OrderID)
+func (s *service) ProcessPayment(input *models.OrderNotification) (*helper.Res, error) {
+	order, err := s.repository.FindByID(input.OrderID)
 	if err != nil {
 		return nil, err
 	}
 
-	if input.PaymentType == "credit_card" && input.TransactionStatus == "capture" && input.FraudStatus == "accept" {
-		transaction.Status = "paid"
-	} else if input.TransactionStatus == "settlement" {
-		transaction.Status = "paid"
-	} else if input.TransactionStatus == "deny" || input.TransactionStatus == "expired" || input.TransactionStatus == "cancel" {
-		transaction.Status = "cancelled"
+	if input.PaymentType == "credit_card" && input.OrderStatus == "capture" && input.FraudStatus == "accept" {
+		order.Status = "paid"
+	} else if input.OrderStatus == "settlement" {
+		order.Status = "paid"
+	} else if input.OrderStatus == "deny" || input.OrderStatus == "expired" || input.OrderStatus == "cancel" {
+		order.Status = "cancelled"
 	}
 
-	id := transaction.ID.Hex()
+	id := order.ID.Hex()
 
-	updateTransaction, err := s.repository.Update(id, transaction)
+	_, err = s.repository.Update(id, order)
 	if err != nil {
 		return nil, err
 	}
 
-	product, err := s.productRepository.FindByID(updateTransaction.ProductID)
-	if err != nil {
-		return nil, err
-	}
-
-	product.Stock = product.Stock - 1
-
-	_, err = s.productRepository.Update(product.ID.Hex(), product)
-	if err != nil {
-		return nil, err
-	}
-
-	res := helper.ResponseJSON("Success", 200, "OK", updateTransaction)
+	res := helper.ResponseJSON("Success", 200, "OK", order)
 	return res, nil
 }

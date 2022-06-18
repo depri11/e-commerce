@@ -48,14 +48,14 @@ func (h *handler) MyOrders(c echo.Context) error {
 }
 
 func (h *handler) NewOrder(c echo.Context) error {
-	var order models.Order
-	oid := c.Request().Header.Get("user_id")
+	var order *models.Order
+	id := c.Request().Header.Get("user_id")
 
 	if err := c.Bind(&order); err != nil {
 		return err
 	}
 
-	data, err := h.service.Create(oid, order)
+	data, err := h.service.Create(id, order)
 	if err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func (h *handler) UpdateOrder(c echo.Context) error {
 		return err
 	}
 
-	data, err := h.service.Update(id, order)
+	data, err := h.service.Update(id, &order)
 	if err != nil {
 		return err
 	}

@@ -67,29 +67,24 @@ func (r *repository) FindByUserID(id string) ([]*models.Order, error) {
 	return order, nil
 }
 
-func (r *repository) Insert(order models.Order) (*models.Order, error) {
+func (r *repository) Insert(order *models.Order) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
-	_, err := r.C.InsertOne(ctx, order)
-	if err != nil {
-		return nil, err
-	}
-
-	return &order, nil
+	return r.C.InsertOne(ctx, order)
 }
 
-func (r *repository) Update(id string, order models.Order) (*models.Order, error) {
+func (r *repository) Update(id string, order *models.Order) (*mongo.UpdateResult, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	_, err = r.C.UpdateOne(ctx, bson.M{"_id": oid}, bson.M{"$set": order})
-	if err != nil {
-		return nil, err
-	}
+	return r.C.UpdateOne(ctx, bson.M{"_id": oid}, bson.M{"$set": order})
+}
 
-	return &order, nil
+func (r *repository) UpdateByOrderID(id string, order *models.Order) (*mongo.UpdateResult, error) {
+	ctx := context.TODO()
+	return r.C.UpdateOne(ctx, bson.M{"order_id": id}, bson.M{"$set": order})
 }
 
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
