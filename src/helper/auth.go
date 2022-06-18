@@ -16,7 +16,7 @@ type claims struct {
 	jwt.StandardClaims
 }
 
-var expirationTime = time.Now().Add(time.Hour)
+var expirationTime = time.Now().Add(time.Hour * 3)
 
 func NewToken(id, email, name, role string) *claims {
 	return &claims{

@@ -15,8 +15,8 @@ type Order struct {
 	TotalPrice   float64            `json:"total_price" bson:"totalPrice"`
 	Status       string             `json:"status" bson:"status"`
 	PaidAt       time.Time          `json:"paid_at" bson:"paidAt"`
-	DeliveredAt  time.Time          `json:"delivered_at" bson:"deliveredAt"`
-	ShippedAt    time.Time          `json:"shipped_at" bson:"shippedAt"`
+	DeliveredAt  time.Time          `json:"delivered_at,omitempty" bson:"deliveredAt,omitempty"`
+	ShippedAt    time.Time          `json:"shipped_at,omitempty" bson:"shippedAt,omitempty"`
 	CreatedAt    time.Time          `json:"created_at" bson:"createdAt"`
 	UpdatedAt    time.Time          `json:"updated_at" bson:"updatedAt"`
 }

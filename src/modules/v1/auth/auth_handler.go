@@ -32,7 +32,7 @@ func (h *handler) SigIn(c echo.Context) error {
 	cookie := new(http.Cookie)
 	cookie.Name = "token"
 	cookie.Value = tokens
-	cookie.Expires = time.Now().Add(time.Hour)
+	cookie.Expires = time.Now().Add(time.Hour * 3)
 	c.SetCookie(cookie)
 
 	res := helper.ResponseJSON("Success", 200, "OK", tokens)
