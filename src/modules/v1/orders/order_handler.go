@@ -25,14 +25,10 @@ func (h *handler) GetAllOrders(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
-func (h *handler) Create(c echo.Context) error {
-	var order models.Order
+func (h *handler) GetOrderDetails(c echo.Context) error {
+	id := c.Param("id")
 
-	if err := c.Bind(&order); err != nil {
-		return err
-	}
-
-	data, err := h.service.Create(order)
+	data, err := h.service.FindByID(id)
 	if err != nil {
 		return err
 	}
@@ -40,7 +36,50 @@ func (h *handler) Create(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
-func (h *handler) Delete(c echo.Context) error {
+func (h *handler) MyOrders(c echo.Context) error {
+	id := c.Request().Header.Get("user_id")
+
+	data, err := h.service.FindByUserID(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) NewOrder(c echo.Context) error {
+	var order models.Order
+	oid := c.Request().Header.Get("user_id")
+
+	if err := c.Bind(&order); err != nil {
+		return err
+	}
+
+	data, err := h.service.Create(oid, order)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) UpdateOrder(c echo.Context) error {
+	var order models.Order
+	id := c.Param("id")
+
+	if err := c.Bind(&order); err != nil {
+		return err
+	}
+
+	data, err := h.service.Update(id, order)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) DeleteOrder(c echo.Context) error {
 	id := c.Param("id")
 
 	data, err := h.service.Delele(id)

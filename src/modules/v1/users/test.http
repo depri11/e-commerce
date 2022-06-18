@@ -1,0 +1,59 @@
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmFkZTlhMjRmZDJiMjQzZGU2Mjc5YmEiLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTU2ODMwNX0.yyBDDqRtiSL96asbb5155Coi4dTgQgBP_JVmUra9_P4
+### Get All User --admin
+GET http://localhost:4000/api/v1/admin/users
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:4000/api/v1/admin/users/62ac2a5db8fc178d830f64ec
+Content-Type: application/json
+Authorization: {{token}}
+
+### View Profile
+GET http://localhost:4000/api/v1/me
+Authorization: {{token}}
+
+### REGISTER
+POST http://localhost:4000/api/v1/register
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "email": "admin@gmail.com",
+    "password": "123",
+    "gender":"man",
+    "role":"admin"
+}
+
+### UPDATE
+PUT http://localhost:4000/api/v1/me/update
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "name": "dev 2",
+    "email": "admin@gmail.com",
+    "password": "1234",
+    "gender":"women"
+}
+
+###
+DELETE http://localhost:4000/api/v1/admin/users/62ac2a5db8fc178d830f64ec
+Content-Type: application/json
+Authorization: {{token}}
+
+### Forgot Password
+POST http://localhost:4000/api/v1/password/forgot
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com"
+}
+
+### Reset Password With Token
+PUT http://localhost:4000/api/v1/password/reset/4c22584920a6fb9ea8d461e96d31ed537f9042f649ecec0f212774e70ea42f4f
+Content-Type: application/json
+
+{
+    "password": "123"
+}

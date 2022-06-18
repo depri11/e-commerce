@@ -33,9 +33,58 @@ func (r *repository) FindAll() ([]*models.Order, error) {
 	return orders, nil
 }
 
+func (r *repository) FindByID(id string) (*models.Order, error) {
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	var order *models.Order
+
+	err = r.C.FindOne(ctx, bson.M{"_id": oid}).Decode(&order)
+	if err != nil {
+		return nil, err
+	}
+
+	return order, nil
+}
+
+func (r *repository) FindByUserID(id string) ([]*models.Order, error) {
+	ctx := context.TODO()
+	var order []*models.Order
+
+	cursor, err := r.C.Find(ctx, bson.M{"user": id})
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(ctx, &order)
+	if err != nil {
+		return nil, err
+	}
+
+	return order, nil
+}
+
 func (r *repository) Insert(order models.Order) (*models.Order, error) {
 	ctx := context.TODO()
 	_, err := r.C.InsertOne(ctx, order)
+	if err != nil {
+		return nil, err
+	}
+
+	return &order, nil
+}
+
+func (r *repository) Update(id string, order models.Order) (*models.Order, error) {
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	_, err = r.C.UpdateOne(ctx, bson.M{"_id": oid}, bson.M{"$set": order})
 	if err != nil {
 		return nil, err
 	}
@@ -52,25 +101,3 @@ func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
 	ctx := context.TODO()
 	return r.C.DeleteOne(ctx, bson.M{"_id": oid})
 }
-
-// func (r *repository) FindOrderById(id string) (*models.Order, error) {
-// 	// oid := primitive.ObjectID.Hex(id)
-// 	ctx := context.TODO()
-// 	var order *models.Order
-
-// 	err := r.C.FindOne(ctx, bson.M{"_id": oid}).Decode(&order)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return order, nil
-// }
-
-// func (r *repository) FindByUserId(id string) ([]*models.Order, error) {
-// 	ctx := context.TODO()
-// 	var order *models.Order
-
-// 	cursor, err := r.C.FindOne(ctx, bson.M{""})
-
-// 	return orders, nil
-// }

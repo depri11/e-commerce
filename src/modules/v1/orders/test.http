@@ -1,0 +1,62 @@
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmFkZTlhMjRmZDJiMjQzZGU2Mjc5YmEiLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTU2ODMwNX0.yyBDDqRtiSL96asbb5155Coi4dTgQgBP_JVmUra9_P4
+
+### GET ALL ORDERS
+GET http://localhost:4000/api/v1/admin/orders
+Content-Type: application/json
+Authorization: {{token}}
+
+### GET MY ORDERS
+GET http://localhost:4000/api/v1/orders/me
+Content-Type: application/json
+Authorization: {{token}}
+
+### GET ORDER DETAILS
+GET http://localhost:4000/api/v1/order/62ada9fd122e86ba77a8d997
+Content-Type: application/json
+
+### Create Order
+POST http://localhost:4000/api/v1/order/new
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "shipping_info": {
+        "address": "Jl. Gandai",
+        "city": "Mukomuko",
+        "state" :"Bengkulu",
+        "country": "Indonesia",
+        "pincode": "38365",
+        "phone": "081212121212"
+    },
+    "items": [
+        "62ada6e224bf3d1b6fb6c18a",
+        "62ada71624bf3d1b6fb6c18b"
+    ],
+    "total_price": 30000
+}
+
+### Update Order --admin
+POST http://localhost:4000/api/v1/admin/order/62adb50fe3abacb68fb8d89b
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "shipping_info": {
+        "address": "Jl. Gandai",
+        "city": "Ipuh",
+        "state" :"Bengkulu",
+        "country": "Indonesia",
+        "pincode": "38365",
+        "phone": "081212121212"
+    },
+    "items": [
+        "62ada6e224bf3d1b6fb6c18a",
+        "62ada71624bf3d1b6fb6c18b"
+    ],
+    "total_price": 30000
+}
+
+### Delete Order By ID
+DELETE http://localhost:4000/api/v1/admin/order/62adb4f6f4dfc9220b63c432
+Content-Type: application/json
+Authorization: {{token}}

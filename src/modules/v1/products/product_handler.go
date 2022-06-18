@@ -43,11 +43,6 @@ func (h *handler) CreateProduct(c echo.Context) error {
 		return err
 	}
 
-	role := c.Response().Header().Get("user_role")
-	if role != "admin" {
-		return c.JSON(http.StatusUnauthorized, "You are not authorized to create a product")
-	}
-
 	data, err := h.service.Insert(&product)
 	if err != nil {
 		return err
