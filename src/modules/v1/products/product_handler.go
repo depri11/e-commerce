@@ -59,11 +59,6 @@ func (h *handler) UpdateProduct(c echo.Context) error {
 		return err
 	}
 
-	role := c.Response().Header().Get("user_role")
-	if role != "admin" {
-		return c.JSON(http.StatusUnauthorized, "You are not authorized to update a product")
-	}
-
 	res, err := h.service.Update(id, &product)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
@@ -75,11 +70,6 @@ func (h *handler) UpdateProduct(c echo.Context) error {
 
 func (h *handler) DeletProduct(c echo.Context) error {
 	id := c.Param("id")
-
-	role := c.Response().Header().Get("user_role")
-	if role != "admin" {
-		return c.JSON(http.StatusUnauthorized, "You are not authorized to delete a product")
-	}
 
 	res, err := h.service.Delete(id)
 	if err != nil {

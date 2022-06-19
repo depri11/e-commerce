@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmFkZTlhMjRmZDJiMjQzZGU2Mjc5YmEiLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTU2ODMwNX0.yyBDDqRtiSL96asbb5155Coi4dTgQgBP_JVmUra9_P4
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmFkZTlhMjRmZDJiMjQzZGU2Mjc5YmEiLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTYxODY5NH0.wsb-aHyhLyY3fWu2AG8uWYe5YWoICSQ1i-tQIYCcDnY
 
 ###
 GET http://localhost:4000/api/v1/products/all
@@ -47,8 +47,8 @@ Authorization: {{token}}
 }
 
 
-###
-DELETE http://localhost:4000/api/v1/admin/products/62ab22ab5d2ff9327c7c3e0e
+### DELETE PRODUCT --admin
+DELETE http://localhost:4000/api/v1/admin/products/62adf501a948ceaa2eaf2717
 Content-Type: application/json
 Authorization: {{token}}
 
