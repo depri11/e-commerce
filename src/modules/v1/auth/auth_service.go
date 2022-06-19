@@ -6,10 +6,6 @@ import (
 	"github.com/depri11/e-commerce/src/interfaces"
 )
 
-type tokenResponse struct {
-	Token string `json:"token"`
-}
-
 type service struct {
 	auth interfaces.UserRepository
 }
