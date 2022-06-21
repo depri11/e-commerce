@@ -18,7 +18,7 @@ type Product struct {
 	Category       string             `json:"category,omitempty" bson:"category"`
 	Stock          int                `json:"stock,omitempty" bson:"stock"`
 	Warranty       int                `json:"warranty,omitempty" bson:"warranty"`
-	Ratings        float32            `json:"ratings,omitempty" bson:"ratings"`
+	Ratings        float64            `json:"ratings" bson:"ratings"`
 	NumOfReviews   int                `json:"num_of_reviews" bson:"num_of_reviews"`
 	Reviews        []*Review          `json:"reviews,omitempty" bson:"reviews"`
 	CreatedAt      time.Time          `json:"created_at,omitempty" bson:"created_at"`
@@ -44,6 +44,6 @@ type Review struct {
 	UserID    string  `json:"user_id,omitempty" bson:"user_id"`
 	ProductID string  `json:"product_id,omitempty" bson:"product_id"`
 	Fullname  string  `json:"fullname,omitempty" bson:"fullname"`
-	Rating    float32 `json:"rating,omitempty" bson:"rating"`
+	Rating    float64 `json:"rating,omitempty" bson:"rating"`
 	Comment   string  `json:"comment,omitempty" bson:"comment"`
 }

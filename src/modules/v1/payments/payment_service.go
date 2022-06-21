@@ -19,29 +19,18 @@ func NewService(repository interfaces.OrderRepository, productRepository interfa
 func (s *service) GetPaymentURL(orderID string, order *models.Order, user *models.User) (string, error) {
 
 	midclient := midtrans.NewClient()
-	midclient.ClientKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
 	midclient.ServerKey = "SB-Mid-server-Dc-ShUJ8AJYb9EvWzoVZKCq0"
+	midclient.ClientKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
 	midclient.APIEnvType = midtrans.Sandbox
 
 	coreGateway := midtrans.SnapGateway{
 		Client: midclient,
 	}
 
-	custAddress := &midtrans.CustAddress{
-		// FName:       "John",
-		// LName:       "Doe",
-		Phone:       order.ShippingInfo.Phone,
-		Address:     order.ShippingInfo.Address,
-		City:        order.ShippingInfo.City,
-		Postcode:    order.ShippingInfo.Pincode,
-		CountryCode: order.ShippingInfo.Country,
-	}
-
 	chargeReq := &midtrans.SnapReq{
 		CustomerDetail: &midtrans.CustDetail{
-			FName:    user.Name,
-			Email:    user.Email,
-			ShipAddr: custAddress,
+			FName: user.Name,
+			Email: user.Email,
 		},
 		TransactionDetails: midtrans.TransactionDetails{
 			OrderID:  orderID,

@@ -2,6 +2,7 @@ package products
 
 import (
 	"fmt"
+	"math"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -91,8 +92,17 @@ func (s *service) InsertReview(review *models.Review) (*helper.Res, error) {
 		return nil, err
 	}
 
+	var avg float64
+
 	reviewData.NumOfReviews = reviewData.NumOfReviews + 1
 	reviewData.Reviews = append(reviewData.Reviews, review)
+	for _, v := range reviewData.Reviews {
+		avg += v.Rating
+	}
+
+	reviewData.Ratings = avg / float64(reviewData.NumOfReviews)
+
+	reviewData.Ratings = math.Round(reviewData.Ratings*10) / 10
 
 	data, err := s.repository.Update(review.ProductID, reviewData)
 	if err != nil {
@@ -114,7 +124,24 @@ func (s *service) GetReviews(id string) (*helper.Res, error) {
 }
 
 func (s *service) DeleteReview(id string) (*helper.Res, error) {
-	data, err := s.repository.DeleteReview(id)
+	var product models.Product
+
+	reviewData, err := s.repository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	var avg float64
+
+	// reviewData.NumOfReviews = reviewData.NumOfReviews - 1
+	// reviewData.Reviews = append(reviewData.Reviews, review)
+	// for _, v := range reviewData.Reviews {
+	// 	avg += v.Rating
+	// }
+
+	reviewData.Ratings = avg / float64(reviewData.NumOfReviews)
+
+	data, err := s.repository.Update(id, &product)
 	if err != nil {
 		return nil, err
 	}

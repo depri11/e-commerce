@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxNzI3MGJjNzc5ZTQwYjEzNGYxYzciLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTgwODE4OX0.ZuzVCSwr9LSeCxTy_4TAlTb4oslqrq6AiUB0jf1Ho-s
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxNzI3MGJjNzc5ZTQwYjEzNGYxYzciLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTgzMTAxNX0.nH-BmldJml1Ssek9azev6wjT-rEGr83BxMEZPqmJjfQ
 
 ###
 GET http://localhost:4000/api/v1/products/all
@@ -25,7 +25,7 @@ Authorization: {{token}}
     "category":"Smartphone",
     "stock": 25,
     "warranty": 10000,
-    "ratings": 4.8
+    "ratings": 0
 }
 
 ### UPDATE PRODUCT --admin
@@ -47,22 +47,22 @@ Authorization: {{token}}
 
 
 ### DELETE PRODUCT --admin
-DELETE http://localhost:4000/api/v1/admin/products/62ae9df78da00715e9a24c33
+DELETE http://localhost:4000/api/v1/admin/products/62b1e746910dd08715aac212
 Content-Type: application/json
 Authorization: {{token}}
 
 ### Create Review
-POST http://localhost:4000/api/v1/product/62b1763f0e491dea85ab686e/review
+POST http://localhost:4000/api/v1/product/62b1e76f1669a351da1c9edf/review
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "rating": 2.2,
-    "comment": "Jelek bro"
+    "rating": 2.5,
+    "comment": "Lumayan!!!"
 }
 
 ### Get Review By Product ID --admin
-GET http://localhost:4000/api/v1/admin/reviews?id=62b176490e491dea85ab686f
+GET http://localhost:4000/api/v1/admin/reviews?id=62b1e76f1669a351da1c9edf
 Content-Type: application/json
 Authorization: {{token}}
 
