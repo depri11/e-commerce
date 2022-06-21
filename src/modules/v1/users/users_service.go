@@ -109,7 +109,7 @@ func (s *service) ForgotPassword(user *models.User) (*helper.Res, error) {
 		return nil, err
 	}
 
-	token := helper.ResetPass()
+	token := helper.GenToken(32)
 
 	data.ResetPassToken = token
 	data.ResetPassExpire = time.Now().Add(time.Second * 5)

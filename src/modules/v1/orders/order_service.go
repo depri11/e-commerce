@@ -49,7 +49,7 @@ func (s *service) FindByUserID(id string) (*helper.Res, error) {
 }
 
 func (s *service) Create(id string, order *models.Order) (*helper.Res, error) {
-	orderID := helper.GenOrderID()
+	orderID := helper.GenToken(12)
 
 	order.PaidAt = time.Now()
 	order.Status = "pending"

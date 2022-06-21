@@ -10,11 +10,12 @@ import (
 )
 
 type service struct {
-	repository interfaces.ProductRepository
+	repository     interfaces.ProductRepository
+	userRepository interfaces.UserRepository
 }
 
-func NewService(repo interfaces.ProductRepository) *service {
-	return &service{repo}
+func NewService(repo interfaces.ProductRepository, userRepository interfaces.UserRepository) *service {
+	return &service{repo, userRepository}
 }
 
 func (s *service) FindAll() (*helper.Res, error) {
@@ -41,6 +42,7 @@ func (s *service) GetUserID(id string) (*helper.Res, error) {
 func (s *service) Insert(product *models.Product) (*helper.Res, error) {
 	product.CreatedAt = time.Now()
 	product.UpdatedAt = time.Now()
+	product.NumOfReviews = 0
 	data, err := s.repository.Insert(product)
 	if err != nil {
 		return nil, err
@@ -83,7 +85,16 @@ func (s *service) Search(page, search, sort string) (*helper.Res, error) {
 }
 
 func (s *service) InsertReview(review *models.Review) (*helper.Res, error) {
-	data, err := s.repository.InsertReview(review)
+
+	reviewData, err := s.repository.FindByID(review.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
+	reviewData.NumOfReviews = reviewData.NumOfReviews + 1
+	reviewData.Reviews = append(reviewData.Reviews, review)
+
+	data, err := s.repository.Update(review.ProductID, reviewData)
 	if err != nil {
 		return nil, err
 	}
@@ -92,8 +103,8 @@ func (s *service) InsertReview(review *models.Review) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) GetReviews() (*helper.Res, error) {
-	data, err := s.repository.FindAllReview()
+func (s *service) GetReviews(id string) (*helper.Res, error) {
+	data, err := s.repository.FindByID(id)
 	if err != nil {
 		return nil, err
 	}

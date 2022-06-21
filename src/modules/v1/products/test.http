@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmFkZTlhMjRmZDJiMjQzZGU2Mjc5YmEiLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTYxODY5NH0.wsb-aHyhLyY3fWu2AG8uWYe5YWoICSQ1i-tQIYCcDnY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxNzI3MGJjNzc5ZTQwYjEzNGYxYzciLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTgwODE4OX0.ZuzVCSwr9LSeCxTy_4TAlTb4oslqrq6AiUB0jf1Ho-s
 
 ###
 GET http://localhost:4000/api/v1/products/all
@@ -12,24 +12,23 @@ Content-Type: application/json
 GET http://localhost:4000/api/v1/products/62ab22ab5d2ff9327c7c3e0e
 Content-Type: application/json
 
-###
+### CREATE PRODUCT --admin
 POST http://localhost:4000/api/v1/admin/products/new
 Content-Type: application/json
 Authorization: {{token}}
 
 {
     "name": "Samsung",
-    "description": "phone terbaik",
-    "price": 800000,
-    "cutted_price":7000,
+    "description": "2",
+    "price": 7000,
+    "cutted_price":400,
     "category":"Smartphone",
     "stock": 25,
     "warranty": 10000,
-    "ratings": 4.8,
-    "num_of_reviews": 10
+    "ratings": 4.8
 }
 
-###
+### UPDATE PRODUCT --admin
 PUT http://localhost:4000/api/v1/admin/products/62ab22ab5d2ff9327c7c3e0e
 Content-Type: application/json
 Authorization: {{token}}
@@ -48,21 +47,26 @@ Authorization: {{token}}
 
 
 ### DELETE PRODUCT --admin
-DELETE http://localhost:4000/api/v1/admin/products/62adf501a948ceaa2eaf2717
+DELETE http://localhost:4000/api/v1/admin/products/62ae9df78da00715e9a24c33
 Content-Type: application/json
 Authorization: {{token}}
 
 ### Create Review
-POST http://localhost:4000/api/v1/product/62ab22ab5d2ff9327c7c3e0e/review
+POST http://localhost:4000/api/v1/product/62b1763f0e491dea85ab686e/review
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "rating": 4.5,
-    "comment": "This is a good product"
+    "rating": 2.2,
+    "comment": "Jelek bro"
 }
 
-### Get All Review --admin
-GET http://localhost:4000/api/v1/admin/reviews
+### Get Review By Product ID --admin
+GET http://localhost:4000/api/v1/admin/reviews?id=62b176490e491dea85ab686f
+Content-Type: application/json
+Authorization: {{token}}
+
+### DELETE Review BY ID --admin
+DELETE http://localhost:4000/api/v1/admin/review/62b17270bc779e40b134f1c7
 Content-Type: application/json
 Authorization: {{token}}

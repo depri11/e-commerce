@@ -143,25 +143,18 @@ func (r *repository) Search(page, search, sort string) ([]models.Product, error)
 	return products, nil
 }
 
-func (r *repository) InsertReview(review *models.Review) (*mongo.InsertOneResult, error) {
-	ctx := context.TODO()
-	return r.C.InsertOne(ctx, review)
-}
-
 func (r *repository) FindAllReview() ([]models.Review, error) {
 	ctx := context.TODO()
 
-	var reviews []models.Review
-
-	cursor, _ := r.C.Find(ctx, bson.M{})
-	defer cursor.Close(ctx)
-
-	for cursor.Next(ctx) {
-		var review models.Review
-		cursor.Decode(&review)
-		reviews = append(reviews, review)
+	cursor, err := r.C.Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
 	}
 
+	var reviews []models.Review
+	if err = cursor.All(ctx, &reviews); err != nil {
+		return nil, err
+	}
 	return reviews, nil
 }
 

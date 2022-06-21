@@ -5,14 +5,8 @@ import (
 	"fmt"
 )
 
-func ResetPass() string {
-	b := make([]byte, 32)
-	rand.Read(b)
-	return fmt.Sprintf("%x", b)
-}
-
-func GenOrderID() string {
-	b := make([]byte, 12)
+func GenToken(size int) string {
+	b := make([]byte, size)
 	rand.Read(b)
 	return fmt.Sprintf("%x", b)
 }

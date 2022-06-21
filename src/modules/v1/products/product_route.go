@@ -2,15 +2,18 @@ package products
 
 import (
 	"github.com/depri11/e-commerce/src/middleware"
+	"github.com/depri11/e-commerce/src/modules/v1/users"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func NewRouter(e *echo.Group, db *mongo.Database) {
 	c := db.Collection("products")
+	u := db.Collection("users")
 
 	repository := NewRepository(c)
-	service := NewService(repository)
+	userRepository := users.NewRepository(u)
+	service := NewService(repository, userRepository)
 	handler := NewHandler(service)
 
 	e.GET("/products", handler.QueryProducts)
@@ -23,6 +26,6 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	e.PUT("/admin/products/:id", handler.UpdateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.DELETE("/admin/products/:id", handler.DeletProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 
-	e.GET("/admin/reviews", handler.GetAllReviews, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.DELETE("/admin/reviews", handler.QueryDeleteReview, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.GET("/admin/reviews", handler.GetAllReviewByProductId, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.DELETE("/admin/review/:id", handler.DeleteReview, middleware.CheckAuth, middleware.CheckRoleAdmin)
 }

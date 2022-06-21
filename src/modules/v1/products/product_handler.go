@@ -105,7 +105,7 @@ func (h *handler) CreateReview(c echo.Context) error {
 
 	review.UserID = user_id
 	review.ProductID = id
-	review.Name = name
+	review.Fullname = name
 
 	res, err := h.service.InsertReview(&review)
 	if err != nil {
@@ -115,8 +115,9 @@ func (h *handler) CreateReview(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *handler) GetAllReviews(c echo.Context) error {
-	data, err := h.service.GetReviews()
+func (h *handler) GetAllReviewByProductId(c echo.Context) error {
+	query := c.QueryParam("id")
+	data, err := h.service.GetReviews(query)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
@@ -124,8 +125,8 @@ func (h *handler) GetAllReviews(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
-func (h *handler) QueryDeleteReview(c echo.Context) error {
-	id := c.QueryParam("id")
+func (h *handler) DeleteReview(c echo.Context) error {
+	id := c.Param("id")
 
 	data, err := h.service.DeleteReview(id)
 	if err != nil {
