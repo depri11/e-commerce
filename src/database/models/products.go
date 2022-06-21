@@ -47,3 +47,7 @@ type Review struct {
 	Rating    float64 `json:"rating,omitempty" bson:"rating"`
 	Comment   string  `json:"comment,omitempty" bson:"comment"`
 }
+
+type ReviewInput struct {
+	Review []*Review `json:"reviews,omitempty" bson:"reviews"`
+}

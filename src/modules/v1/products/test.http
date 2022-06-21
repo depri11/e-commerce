@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxNzI3MGJjNzc5ZTQwYjEzNGYxYzciLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTgzMTAxNX0.nH-BmldJml1Ssek9azev6wjT-rEGr83BxMEZPqmJjfQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxZjJkZDM1MWE1NTAyYTFmZTgzYzEiLCJuYW1lIjoiZGV2IiwiZW1haWwiOiJkZXZAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNjU1ODM5OTY3fQ.zGQizN0sfrzmEv9bjYww2Sev8x2__6yDWrZEjsTI3gE
 
 ###
 GET http://localhost:4000/api/v1/products/all
@@ -29,7 +29,7 @@ Authorization: {{token}}
 }
 
 ### UPDATE PRODUCT --admin
-PUT http://localhost:4000/api/v1/admin/products/62ab22ab5d2ff9327c7c3e0e
+PUT http://localhost:4000/api/v1/admin/products/62b1f8c13732b0043487d6e7
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -47,26 +47,38 @@ Authorization: {{token}}
 
 
 ### DELETE PRODUCT --admin
-DELETE http://localhost:4000/api/v1/admin/products/62b1e746910dd08715aac212
+DELETE http://localhost:4000/api/v1/admin/products/62b1f8c13732b0043487d6e7
 Content-Type: application/json
 Authorization: {{token}}
 
 ### Create Review
-POST http://localhost:4000/api/v1/product/62b1e76f1669a351da1c9edf/review
+PUT http://localhost:4000/api/v1/product/62b208878143097ae895149d/review
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "rating": 2.5,
-    "comment": "Lumayan!!!"
+    "rating": 3.5,
+    "comment": "hhh"
 }
 
 ### Get Review By Product ID --admin
-GET http://localhost:4000/api/v1/admin/reviews?id=62b1e76f1669a351da1c9edf
+GET http://localhost:4000/api/v1/admin/reviews?id=62b208878143097ae895149d
 Content-Type: application/json
 Authorization: {{token}}
 
 ### DELETE Review BY ID --admin
-DELETE http://localhost:4000/api/v1/admin/review/62b17270bc779e40b134f1c7
+DELETE http://localhost:4000/api/v1/admin/review?id=62b208878143097ae895149d
 Content-Type: application/json
 Authorization: {{token}}
+
+{
+    "reviews": [
+      {
+        "user_id": "62b1f2dd351a5502a1fe83c1",
+        "product_id": "62b208878143097ae895149d",
+        "fullname": "dev",
+        "rating": 4.3,
+        "comment": "JJJ"
+      }
+    ]
+}

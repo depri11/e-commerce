@@ -126,12 +126,17 @@ func (h *handler) GetAllReviewByProductId(c echo.Context) error {
 }
 
 func (h *handler) DeleteReview(c echo.Context) error {
-	id := c.Param("id")
+	id := c.QueryParam("id")
+	var review *models.ReviewInput
 
-	data, err := h.service.DeleteReview(id)
+	if err := c.Bind(&review); err != nil {
+		return err
+	}
+
+	res, err := h.service.DeleteReview(id, review)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, data)
+	return c.JSON(http.StatusOK, res)
 }

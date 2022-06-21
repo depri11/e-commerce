@@ -28,5 +28,5 @@ type ProductService interface {
 	Search(page, search, sort string) (*helper.Res, error)
 	GetReviews(id string) (*helper.Res, error)
 	InsertReview(review *models.Review) (*helper.Res, error)
-	DeleteReview(id string) (*helper.Res, error)
+	DeleteReview(id string, review *models.ReviewInput) (*helper.Res, error)
 }

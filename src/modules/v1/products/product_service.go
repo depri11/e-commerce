@@ -123,25 +123,24 @@ func (s *service) GetReviews(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) DeleteReview(id string) (*helper.Res, error) {
-	var product models.Product
-
-	reviewData, err := s.repository.FindByID(id)
+func (s *service) DeleteReview(id string, review *models.ReviewInput) (*helper.Res, error) {
+	dataProduct, err := s.repository.FindByID(id)
 	if err != nil {
 		return nil, err
 	}
 
 	var avg float64
 
-	// reviewData.NumOfReviews = reviewData.NumOfReviews - 1
-	// reviewData.Reviews = append(reviewData.Reviews, review)
-	// for _, v := range reviewData.Reviews {
-	// 	avg += v.Rating
-	// }
+	dataProduct.NumOfReviews = len(review.Review)
+	for _, v := range review.Review {
+		avg += v.Rating
+	}
 
-	reviewData.Ratings = avg / float64(reviewData.NumOfReviews)
+	dataProduct.Ratings = avg / float64(dataProduct.NumOfReviews)
+	dataProduct.UpdatedAt = time.Now()
+	dataProduct.Reviews = review.Review
 
-	data, err := s.repository.Update(id, &product)
+	data, err := s.repository.Update(id, dataProduct)
 	if err != nil {
 		return nil, err
 	}

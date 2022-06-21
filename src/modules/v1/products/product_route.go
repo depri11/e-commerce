@@ -19,7 +19,7 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	e.GET("/products", handler.QueryProducts)
 	e.GET("/products/all", handler.GetAllProducts, middleware.CheckAuth)
 	e.GET("/products/:id", handler.GetProductDetails)
-	e.POST("/product/:id/review", handler.CreateReview, middleware.CheckAuth)
+	e.PUT("/product/:id/review", handler.CreateReview, middleware.CheckAuth)
 
 	e.GET("/admin/products", handler.GetAllProducts, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.POST("/admin/products/new", handler.CreateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
@@ -27,5 +27,5 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	e.DELETE("/admin/products/:id", handler.DeletProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 
 	e.GET("/admin/reviews", handler.GetAllReviewByProductId, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.DELETE("/admin/review/:id", handler.DeleteReview, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.DELETE("/admin/review", handler.DeleteReview, middleware.CheckAuth, middleware.CheckRoleAdmin)
 }

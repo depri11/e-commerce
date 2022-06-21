@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJPYmplY3RJRChcIjYyYWRlOWEyNGZkMmIyNDNkZTYyNzliYVwiKSIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNjU1ODA2MDIyfQ.LMEwcXqPf_zWktxr-7weg9MT2RNZ2nQo31drUOuKmV0
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIxNzI3MGJjNzc5ZTQwYjEzNGYxYzciLCJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTY1NTgzOTk2N30.kkzR9spH989XQKyPUsQKbFZBCQkcRDqKEPa50JaWkMM
 ### Get All User --admin
 GET http://localhost:4000/api/v1/admin/users
 Content-Type: application/json
@@ -18,8 +18,8 @@ POST http://localhost:4000/api/v1/register
 Content-Type: application/json
 
 {
-    "name": "admin",
-    "email": "admin@gmail.com",
+    "name": "dev",
+    "email": "dev@gmail.com",
     "password": "123",
     "gender":"man",
     "role":"admin"
