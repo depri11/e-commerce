@@ -3,6 +3,8 @@ package users
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"mime/multipart"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -147,6 +149,37 @@ func (s *service) ResetPassword(token string, user *models.User) (*helper.Res, e
 	data.ResetPassExpire = time.Now()
 
 	id := data.ID.Hex()
+
+	r, err := s.repository.Update(id, data)
+	if err != nil {
+		return nil, err
+	}
+
+	res := helper.ResponseJSON("Success", 200, "OK", r)
+	return res, nil
+}
+
+func (s *service) UploadAvatar(id string, file multipart.File) (*helper.Res, error) {
+	data, err := s.repository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	tempFile, err := ioutil.TempFile("images/avatar", "avatar-*.png")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer tempFile.Close()
+
+	// read all of the contents of our uploaded file into a
+	// byte array
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+	tempFile.Write(fileBytes)
+
+	data.Avatar = tempFile.Name()
 
 	r, err := s.repository.Update(id, data)
 	if err != nil {

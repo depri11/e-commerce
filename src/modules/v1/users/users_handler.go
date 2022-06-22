@@ -130,3 +130,22 @@ func (h *handler) ResetPassword(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h *handler) UploadAvatar(c echo.Context) error {
+	id := c.Request().Header.Get("user_id")
+	file, err := c.FormFile("file")
+	if err != nil {
+		return err
+	}
+	src, err := file.Open()
+	if err != nil {
+		return err
+	}
+	defer src.Close()
+
+	res, err := h.service.UploadAvatar(id, src)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+	return c.JSON(http.StatusOK, res)
+}

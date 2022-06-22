@@ -1,6 +1,8 @@
 package interfaces
 
 import (
+	"mime/multipart"
+
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -26,4 +28,5 @@ type UserService interface {
 	Delete(id string) (*helper.Res, error)
 	ForgotPassword(user *models.User) (*helper.Res, error)
 	ResetPassword(token string, user *models.User) (*helper.Res, error)
+	UploadAvatar(id string, file multipart.File) (*helper.Res, error)
 }

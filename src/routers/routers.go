@@ -16,7 +16,7 @@ func SetupRouters() (*echo.Echo, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	e.Static("/", "")
 	e.Use(middleware.CORS())
 
 	api := e.Group("/api/v1")
