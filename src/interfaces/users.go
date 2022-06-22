@@ -28,5 +28,5 @@ type UserService interface {
 	Delete(id string) (*helper.Res, error)
 	ForgotPassword(user *models.User) (*helper.Res, error)
 	ResetPassword(token string, user *models.User) (*helper.Res, error)
-	UploadAvatar(id string, file multipart.File) (*helper.Res, error)
+	UploadAvatar(id string, file multipart.File, handle *multipart.FileHeader) (*helper.Res, error)
 }

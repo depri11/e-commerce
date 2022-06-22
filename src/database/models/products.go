@@ -13,7 +13,7 @@ type Product struct {
 	Specifications []Specification    `json:"specifications,omitempty" bson:"specifications"`
 	Price          int32              `json:"price,omitempty" bson:"price"`
 	CuttedPrice    int32              `json:"cutted_price,omitempty" bson:"cutted_price"`
-	Images         []ProductImage     `json:"images,omitempty" bson:"images"`
+	Images         []Image            `json:"images,omitempty" bson:"images"`
 	Brand          Brand              `json:"brand,omitempty" bson:"brand"`
 	Category       string             `json:"category,omitempty" bson:"category"`
 	Stock          int                `json:"stock,omitempty" bson:"stock"`
@@ -30,7 +30,7 @@ type Specification struct {
 	Description string `json:"description,omitempty" bson:"description"`
 }
 
-type ProductImage struct {
+type Image struct {
 	Url       string `json:"url,omitempty" bson:"url"`
 	IsPrimary bool   `json:"is_primary,omitempty" bson:"is_primary"`
 }

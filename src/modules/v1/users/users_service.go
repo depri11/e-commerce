@@ -3,7 +3,6 @@ package users
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"mime/multipart"
 	"time"
 
@@ -159,27 +158,20 @@ func (s *service) ResetPassword(token string, user *models.User) (*helper.Res, e
 	return res, nil
 }
 
-func (s *service) UploadAvatar(id string, file multipart.File) (*helper.Res, error) {
+func (s *service) UploadAvatar(id string, file multipart.File, handle *multipart.FileHeader) (*helper.Res, error) {
 	data, err := s.repository.FindByID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	tempFile, err := ioutil.TempFile("images/avatar", "avatar-*.png")
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer tempFile.Close()
+	avatar := "avatar"
 
-	// read all of the contents of our uploaded file into a
-	// byte array
-	fileBytes, err := ioutil.ReadAll(file)
+	images, err := helper.UploadImages(avatar, file, handle)
 	if err != nil {
 		return nil, err
 	}
-	tempFile.Write(fileBytes)
 
-	data.Avatar = tempFile.Name()
+	data.Avatar = images.URL
 
 	r, err := s.repository.Update(id, data)
 	if err != nil {

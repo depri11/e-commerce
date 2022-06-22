@@ -23,6 +23,7 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 
 	e.GET("/admin/products", handler.GetAllProducts, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.POST("/admin/products/new", handler.CreateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.PUT("/admin/products/upload", handler.UploadImages, middleware.CheckAuth)
 	e.PUT("/admin/products/:id", handler.UpdateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.DELETE("/admin/products/:id", handler.DeletProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 

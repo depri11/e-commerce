@@ -140,3 +140,17 @@ func (h *handler) DeleteReview(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h *handler) UploadImages(c echo.Context) error {
+	id := c.QueryParam("id")
+	file, handle, err := c.Request().FormFile("images")
+	if err != nil {
+		return err
+	}
+
+	res, err := h.service.UploadImages(id, file, handle)
+	if err != nil {
+		return c.JSON(http.StatusNotAcceptable, err.Error())
+	}
+	return c.JSON(http.StatusOK, res)
+}

@@ -1,6 +1,8 @@
 package interfaces
 
 import (
+	"mime/multipart"
+
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,4 +31,5 @@ type ProductService interface {
 	GetReviews(id string) (*helper.Res, error)
 	InsertReview(review *models.Review) (*helper.Res, error)
 	DeleteReview(id string, review *models.ReviewInput) (*helper.Res, error)
+	UploadImages(id string, file multipart.File, handle *multipart.FileHeader) (*helper.Res, error)
 }

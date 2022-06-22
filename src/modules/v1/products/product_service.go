@@ -3,6 +3,7 @@ package products
 import (
 	"fmt"
 	"math"
+	"mime/multipart"
 	"time"
 
 	"github.com/depri11/e-commerce/src/database/models"
@@ -147,4 +148,30 @@ func (s *service) DeleteReview(id string, review *models.ReviewInput) (*helper.R
 
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
+}
+
+func (s *service) UploadImages(id string, file multipart.File, handle *multipart.FileHeader) (*helper.Res, error) {
+	_, err := s.repository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ext := "products"
+
+	images, err := helper.UploadImages(ext, file, handle)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(images.SecureURL)
+
+	fmt.Println(images.URL)
+	return nil, nil
+
+	// r, err := s.repository.Update(id, data)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// res := helper.ResponseJSON("Success", 200, "OK", r)
+	// return res, nil
 }
