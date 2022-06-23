@@ -14,9 +14,11 @@ func UploadImages(ext string, file multipart.File, handle *multipart.FileHeader)
 		return nil, err
 	}
 
+	rand := GenToken(8)
+
 	var ctx = context.Background()
 	result, err := cld.Upload.Upload(ctx, file, uploader.UploadParams{
-		PublicID: "e-commerce/" + ext + "/" + handle.Filename,
+		PublicID: "e-commerce/" + ext + "/" + rand + "-" + handle.Filename,
 	})
 
 	if err != nil {

@@ -13,7 +13,7 @@ type ProductRepository interface {
 	FindByID(id string) (*models.Product, error)
 	Insert(user *models.Product) (*mongo.InsertOneResult, error)
 	Update(id string, product *models.Product) (*mongo.UpdateResult, error)
-	UpdateMany(id []string, product *models.Product) (*mongo.UpdateResult, error)
+	// UpdateMany(id []string, product *models.Product) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 	Search(page, search, sort string) ([]models.Product, error)
 	// FindAllReview() ([]models.Review, error)

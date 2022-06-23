@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/depri11/e-commerce/src/database/models"
+	"github.com/depri11/e-commerce/src/helper"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
 )
@@ -143,14 +144,28 @@ func (h *handler) DeleteReview(c echo.Context) error {
 
 func (h *handler) UploadImages(c echo.Context) error {
 	id := c.QueryParam("id")
-	file, handle, err := c.Request().FormFile("images")
+	form, err := c.MultipartForm()
 	if err != nil {
 		return err
 	}
 
-	res, err := h.service.UploadImages(id, file, handle)
-	if err != nil {
-		return c.JSON(http.StatusNotAcceptable, err.Error())
+	var res *helper.Res
+
+	files := form.File["images"]
+
+	for i := 0; i < len(files); i++ {
+		src, err := files[i].Open()
+		if err != nil {
+			return err
+		}
+		defer src.Close()
+
+		res, err = h.service.UploadImages(id, src, files[i])
+		if err != nil {
+			return c.JSON(http.StatusNotAcceptable, err.Error())
+		}
+
 	}
+
 	return c.JSON(http.StatusOK, res)
 }
