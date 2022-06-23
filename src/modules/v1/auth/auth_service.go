@@ -1,8 +1,10 @@
 package auth
 
 import (
-	"github.com/depri11/e-commerce/src/database/models"
+	"errors"
+
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 )
 
@@ -14,14 +16,14 @@ func NewService(auth interfaces.UserRepository) *service {
 	return &service{auth}
 }
 
-func (s *service) Login(user models.User) (string, error) {
-	data, err := s.UserRepository.FindByEmail(user.Email)
+func (s *service) Login(input input.AuthLogin) (string, error) {
+	data, err := s.UserRepository.FindByEmail(input.Email)
 	if err != nil {
-		return "", err
+		return "", errors.New("email/password incorrect, please correct this")
 	}
 
-	if !helper.CheckPassword(data.Password, user.Password) {
-		return "", err
+	if !helper.CheckPassword(data.Password, input.Password) {
+		return "", errors.New("email/password incorrect, please correct this")
 	}
 
 	id := data.ID.Hex()
@@ -29,7 +31,7 @@ func (s *service) Login(user models.User) (string, error) {
 	token := helper.NewToken(id, data.Email, data.Name, data.Role)
 	tokens, err := token.Create()
 	if err != nil {
-		return "", err
+		return "", errors.New("failed to create token")
 	}
 
 	return tokens, nil

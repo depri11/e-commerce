@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
 )
@@ -19,14 +19,20 @@ func NewHandler(service interfaces.AuthService) *handler {
 }
 
 func (h *handler) SigIn(c echo.Context) error {
-	var user models.User
-	if err := c.Bind(&user); err != nil {
+	var input input.AuthLogin
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	tokens, err := h.service.Login(user)
+	if err := helper.ValidationError(input); err != nil {
+		res := helper.ResponseJSON("Failed to validate", 500, "error", err.Error())
+		return c.JSON(500, res)
+	}
+
+	tokens, err := h.service.Login(input)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		res := helper.ResponseJSON("Faled login!", 401, "error", err.Error())
+		return c.JSON(401, res)
 	}
 
 	cookie := new(http.Cookie)
@@ -42,12 +48,14 @@ func (h *handler) SigIn(c echo.Context) error {
 func (h *handler) Logout(c echo.Context) error {
 	cookie, err := c.Cookie("token")
 	if err != nil {
-		return err
+		res := helper.ResponseJSON("Faled logout", 500, "error", err.Error())
+		return c.JSON(500, res)
 	}
 
 	cookie.Value = ""
 	cookie.Expires = time.Now()
 	c.SetCookie(cookie)
+
 	res := helper.ResponseJSON("Success Logout", 200, "OK", nil)
 	return c.JSON(http.StatusOK, res)
 }

@@ -1,9 +1,7 @@
 package interfaces
 
-import (
-	"github.com/depri11/e-commerce/src/database/models"
-)
+import "github.com/depri11/e-commerce/src/input"
 
 type AuthService interface {
-	Login(user models.User) (string, error)
+	Login(input input.AuthLogin) (string, error)
 }
