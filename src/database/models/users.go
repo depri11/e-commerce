@@ -21,14 +21,9 @@ type User struct {
 }
 
 type UpdateProfile struct {
-	Name     string `json:"name,omitempty" bson:"name"`
-	Email    string `json:"email,omitempty" bson:"email"`
-	Password string `json:"password,omitempty" bson:"password"`
-	Gender   string `json:"gender,omitempty" bson:"gender"`
-	// Avatar          Avatar    `json:"avatar" bson:"avatar,omitempty"`
+	Name      string    `json:"name,omitempty" bson:"name"`
+	Email     string    `json:"email,omitempty" bson:"email"`
+	Password  string    `json:"password,omitempty" bson:"password"`
+	Gender    string    `json:"gender,omitempty" bson:"gender"`
 	UpdatedAt time.Time `json:"updated_at" bson:"updated_at"`
 }
-
-// type UploadAvatar struct {
-// 	Avatar *multipart.File `json:"avatar" bson:"avatar,omitempty"`
-// }
