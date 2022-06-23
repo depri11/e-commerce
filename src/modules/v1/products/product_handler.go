@@ -150,7 +150,6 @@ func (h *handler) UploadImages(c echo.Context) error {
 	}
 
 	var res *helper.Res
-
 	files := form.File["images"]
 
 	for i := 0; i < len(files); i++ {

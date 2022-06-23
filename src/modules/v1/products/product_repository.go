@@ -68,6 +68,19 @@ func (r *repository) Update(id string, product *models.Product) (*mongo.UpdateRe
 	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": product})
 }
 
+func (r *repository) MarkAllImagesNonPrimary(id string, product *models.Product) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range product.Images {
+		v.IsPrimary = false
+	}
+	ctx := context.TODO()
+	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": product})
+}
+
 // func (r *repository) UpdateMany(id []string, product *models.Product) (*mongo.UpdateResult, error) {
 // 	ctx := context.TODO()
 // 	return r.C.UpdateMany(ctx, bson.M{"_id": id}, bson.M{"$set": product})

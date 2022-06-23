@@ -165,7 +165,9 @@ func (s *service) UploadImages(id string, file multipart.File, handle *multipart
 		return nil, err
 	}
 
+	input.IsPrimary = false
 	input.Url = images.URL
+
 	data.Images = append(data.Images, input)
 
 	r, err := s.repository.Update(id, data)
