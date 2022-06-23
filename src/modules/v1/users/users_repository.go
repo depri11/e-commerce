@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/depri11/e-commerce/src/database/models"
+	"github.com/depri11/e-commerce/src/input"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -32,14 +33,14 @@ func (r *repository) FindAll() ([]*models.User, error) {
 	return users, nil
 }
 
-func (r *repository) FindByID(id string) (*models.User, error) {
+func (r *repository) FindByID(id string) (*input.RespUser, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	user := &models.User{}
+	user := &input.RespUser{}
 
 	err = r.C.FindOne(ctx, bson.M{"_id": p}).Decode(user)
 	if err != nil {
@@ -73,44 +74,19 @@ func (r *repository) FindByResetPassToken(token string) (*models.User, error) {
 	return user, nil
 }
 
-func (r *repository) Insert(user *models.User) (*models.User, error) {
+func (r *repository) Insert(user *models.User) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
-	_, err := r.C.InsertOne(ctx, user)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return r.C.InsertOne(ctx, user)
 }
 
-func (r *repository) Update(id string, user *models.User) (*models.User, error) {
+func (r *repository) Update(id string, user *models.User) (*mongo.UpdateResult, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	ctx := context.TODO()
-	_, err = r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
-}
-
-func (r *repository) UpdateProfile(id string, user *models.User) (*models.User, error) {
-	p, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
-	ctx := context.TODO()
-	_, err = r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return r.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": user})
 }
 
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {

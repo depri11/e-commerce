@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/depri11/e-commerce/src/database/models"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
 )
@@ -47,13 +48,13 @@ func (h *handler) GetUserDetails(c echo.Context) error {
 
 func (h *handler) UpdateProfile(c echo.Context) error {
 	id := c.Request().Header.Get("user_id")
-	var user models.User
+	var input input.UserInput
 
-	if err := c.Bind(&user); err != nil {
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	res, err := h.service.UpdateProfile(id, &user)
+	res, err := h.service.Update(id, &input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
@@ -62,12 +63,12 @@ func (h *handler) UpdateProfile(c echo.Context) error {
 }
 
 func (h *handler) Register(c echo.Context) error {
-	var user models.User
-	if err := c.Bind(&user); err != nil {
+	var input input.UserInput
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	res, err := h.service.Insert(&user)
+	res, err := h.service.Insert(&input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
@@ -77,13 +78,13 @@ func (h *handler) Register(c echo.Context) error {
 
 func (h *handler) UpdateUser(c echo.Context) error {
 	id := c.Param("id")
-	var user models.User
+	var input input.UserInput
 
-	if err := c.Bind(&user); err != nil {
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	res, err := h.service.Update(id, &user)
+	res, err := h.service.Update(id, &input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}
@@ -103,12 +104,12 @@ func (h *handler) DeletUser(c echo.Context) error {
 }
 
 func (h *handler) ForgotPassword(c echo.Context) error {
-	var user models.User
-	if err := c.Bind(&user); err != nil {
+	var input input.ForgotPasswordInput
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	res, err := h.service.ForgotPassword(&user)
+	res, err := h.service.ForgotPassword(&input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}

@@ -5,6 +5,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/veritrans/go-midtrans"
 )
@@ -18,7 +19,7 @@ func NewService(repository interfaces.OrderRepository, productRepository interfa
 	return &service{repository, productRepository}
 }
 
-func (s *service) GetPaymentURL(orderID string, order *models.Order, user *models.User) (string, error) {
+func (s *service) GetPaymentURL(orderID string, order *models.Order, user *input.RespUser) (string, error) {
 
 	midclient := midtrans.NewClient()
 	midclient.ServerKey = os.Getenv("MIDTRANS_SERVER")
