@@ -12,7 +12,6 @@ type ProductRepository interface {
 	FindAll() ([]models.Product, error)
 	FindByID(id string) (*models.Product, error)
 	Insert(user *models.Product) (*mongo.InsertOneResult, error)
-	MarkAllImagesNonPrimary(id string, product *models.Product) (*mongo.UpdateResult, error)
 	Update(id string, product *models.Product) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 	Search(page, search, sort string) ([]models.Product, error)

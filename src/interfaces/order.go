@@ -12,7 +12,6 @@ type OrderRepository interface {
 	FindByUserID(id string) ([]*models.Order, error)
 	Insert(order *models.Order) (*mongo.InsertOneResult, error)
 	Update(id string, order *models.Order) (*mongo.UpdateResult, error)
-	UpdateByOrderID(id string, order *models.Order) (*mongo.UpdateResult, error)
 	Delete(id string) (*mongo.DeleteResult, error)
 }
 

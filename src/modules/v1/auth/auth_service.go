@@ -7,7 +7,7 @@ import (
 )
 
 type service struct {
-	auth interfaces.UserRepository
+	UserRepository interfaces.UserRepository
 }
 
 func NewService(auth interfaces.UserRepository) *service {
@@ -15,7 +15,7 @@ func NewService(auth interfaces.UserRepository) *service {
 }
 
 func (s *service) Login(user models.User) (string, error) {
-	data, err := s.auth.FindByEmail(user.Email)
+	data, err := s.UserRepository.FindByEmail(user.Email)
 	if err != nil {
 		return "", err
 	}

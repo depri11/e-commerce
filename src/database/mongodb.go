@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -16,7 +17,10 @@ func SetupDB() (*mongo.Database, error) {
 		return nil, err
 	}
 
-	clientOption := options.Client().ApplyURI("mongodb://localhost:27017/")
+	mongo_uri := os.Getenv("MONGODB_URI")
+	name := os.Getenv("MONGODB_NAME")
+
+	clientOption := options.Client().ApplyURI(mongo_uri)
 
 	db, err := mongo.NewClient(clientOption)
 	if err != nil {
@@ -33,6 +37,6 @@ func SetupDB() (*mongo.Database, error) {
 
 	fmt.Println("Connected to MongoDB")
 
-	return db.Database("e-commerce"), nil
+	return db.Database(name), nil
 
 }

@@ -75,11 +75,6 @@ func (s *service) Create(id string, order *models.Order) (*helper.Res, error) {
 		return nil, err
 	}
 
-	// data, err = s.repository.UpdateByOrderID(orderID, order)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	res := helper.ResponseJSON("Success", 200, "OK", data)
 	return res, nil
 }

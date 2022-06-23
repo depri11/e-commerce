@@ -1,6 +1,8 @@
 package payments
 
 import (
+	"os"
+
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
 	"github.com/depri11/e-commerce/src/interfaces"
@@ -19,8 +21,8 @@ func NewService(repository interfaces.OrderRepository, productRepository interfa
 func (s *service) GetPaymentURL(orderID string, order *models.Order, user *models.User) (string, error) {
 
 	midclient := midtrans.NewClient()
-	midclient.ServerKey = "SB-Mid-server-Dc-ShUJ8AJYb9EvWzoVZKCq0"
-	midclient.ClientKey = "SB-Mid-client-Fg55R6OSZynaFTNA"
+	midclient.ServerKey = os.Getenv("MIDTRANS_SERVER")
+	midclient.ClientKey = os.Getenv("MIDTRANS_CLIENT")
 	midclient.APIEnvType = midtrans.Sandbox
 
 	coreGateway := midtrans.SnapGateway{

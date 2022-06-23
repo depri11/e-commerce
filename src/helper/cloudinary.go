@@ -3,13 +3,18 @@ package helper
 import (
 	"context"
 	"mime/multipart"
+	"os"
 
 	"github.com/cloudinary/cloudinary-go"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
 )
 
 func UploadImages(ext string, file multipart.File, handle *multipart.FileHeader) (*uploader.UploadResult, error) {
-	cld, err := cloudinary.NewFromParams("dlyp1s66j", "424186382842538", "nsffCHZoLCYSbEkgn-TptP2EL9c")
+	name := os.Getenv("CLOUD_NAME")
+	key := os.Getenv("CLOUD_KEY")
+	secret := os.Getenv("CLOUD_SECRET")
+
+	cld, err := cloudinary.NewFromParams(name, key, secret)
 	if err != nil {
 		return nil, err
 	}
