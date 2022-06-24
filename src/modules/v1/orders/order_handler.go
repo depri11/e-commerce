@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/depri11/e-commerce/src/database/models"
+	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
 )
@@ -48,14 +50,19 @@ func (h *handler) MyOrders(c echo.Context) error {
 }
 
 func (h *handler) NewOrder(c echo.Context) error {
-	var order *models.Order
 	id := c.Request().Header.Get("user_id")
 
-	if err := c.Bind(&order); err != nil {
-		return err
+	var input input.CreateOrderInput
+
+	if err := c.Bind(&input); err != nil {
+		return c.JSON(500, err.Error())
 	}
 
-	data, err := h.service.Create(id, order)
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
+	}
+
+	data, err := h.service.Create(id, &input)
 	if err != nil {
 		return err
 	}

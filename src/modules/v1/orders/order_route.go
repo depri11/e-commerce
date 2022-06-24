@@ -22,11 +22,11 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	handler := NewHandler(service)
 
 	e.POST("/order/new", handler.NewOrder, middleware.CheckAuth)
-	e.GET("/order/:id", handler.GetOrderDetails)
+	e.GET("/order/:id", handler.GetOrderDetails, middleware.CheckAuth)
 	e.GET("/orders/me", handler.MyOrders, middleware.CheckAuth)
 
-	e.DELETE("/admin/order/:id", handler.DeleteOrder, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.GET("/admin/orders", handler.GetAllOrders, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.POST("/admin/order/:id", handler.UpdateOrder, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.PUT("/admin/order/:id", handler.UpdateOrder, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.DELETE("/admin/order/:id", handler.DeleteOrder, middleware.CheckAuth, middleware.CheckRoleAdmin)
 
 }

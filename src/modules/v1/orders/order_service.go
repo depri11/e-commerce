@@ -5,6 +5,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 )
 
@@ -48,29 +49,34 @@ func (s *service) FindByUserID(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Create(id string, order *models.Order) (*helper.Res, error) {
+func (s *service) Create(id string, input *input.CreateOrderInput) (*helper.Res, error) {
+	var order models.Order
+
 	orderID := helper.GenToken(12)
 
+	order.UserID = id
+	order.OrderID = orderID
+	order.ShippingInfo = input.ShippingInfo
+	order.Products = input.Products
+	order.TotalPrice = input.TotalPrice
 	order.PaidAt = time.Now()
 	order.Status = "pending"
 	order.CreatedAt = time.Now()
 	order.UpdatedAt = time.Now()
-	order.UserID = id
-	order.OrderID = orderID
 
 	user, err := s.userRepository.FindByID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	paymentUrl, err := s.paymentService.GetPaymentURL(orderID, order, user)
+	paymentUrl, err := s.paymentService.GetPaymentURL(orderID, &order, user)
 	if err != nil {
 		return nil, err
 	}
 
 	order.PaymentURL = paymentUrl
 
-	data, err := s.repository.Insert(order)
+	data, err := s.repository.Insert(&order)
 	if err != nil {
 		return nil, err
 	}

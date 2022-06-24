@@ -3,6 +3,7 @@ package interfaces
 import (
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -19,7 +20,7 @@ type OrderService interface {
 	GetAllOrders() (*helper.Res, error)
 	FindByID(id string) (*helper.Res, error)
 	FindByUserID(id string) (*helper.Res, error)
-	Create(id string, order *models.Order) (*helper.Res, error)
+	Create(id string, input *input.CreateOrderInput) (*helper.Res, error)
 	Update(id string, order *models.Order) (*helper.Res, error)
 	Delele(id string) (*helper.Res, error)
 }

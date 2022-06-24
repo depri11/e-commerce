@@ -82,11 +82,6 @@ func (r *repository) Update(id string, order *models.Order) (*mongo.UpdateResult
 	return r.C.UpdateOne(ctx, bson.M{"_id": oid}, bson.M{"$set": order})
 }
 
-func (r *repository) UpdateByOrderID(id string, order *models.Order) (*mongo.UpdateResult, error) {
-	ctx := context.TODO()
-	return r.C.UpdateOne(ctx, bson.M{"order_id": id}, bson.M{"$set": order})
-}
-
 func (r *repository) Delete(id string) (*mongo.DeleteResult, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
