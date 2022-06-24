@@ -8,5 +8,5 @@ import (
 
 type PaymentService interface {
 	GetPaymentURL(orderID string, order *models.Order, user *input.RespUser) (string, error)
-	ProcessPayment(input *models.OrderNotification) (*helper.Res, error)
+	ProcessPayment(input *input.OrderNotificationInput) (*helper.Res, error)
 }

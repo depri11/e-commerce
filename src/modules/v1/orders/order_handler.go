@@ -11,11 +11,12 @@ import (
 )
 
 type handler struct {
-	service interfaces.OrderService
+	service        interfaces.OrderService
+	paymentService interfaces.PaymentService
 }
 
-func NewHandler(service interfaces.OrderService) *handler {
-	return &handler{service}
+func NewHandler(service interfaces.OrderService, paymentService interfaces.PaymentService) *handler {
+	return &handler{service, paymentService}
 }
 
 func (h *handler) GetAllOrders(c echo.Context) error {
@@ -90,6 +91,21 @@ func (h *handler) DeleteOrder(c echo.Context) error {
 	id := c.Param("id")
 
 	data, err := h.service.Delele(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, data)
+}
+
+func (h *handler) GetNotificationOrder(c echo.Context) error {
+	var input input.OrderNotificationInput
+
+	if err := c.Bind(&input); err != nil {
+		return err
+	}
+
+	data, err := h.paymentService.ProcessPayment(&input)
 	if err != nil {
 		return err
 	}

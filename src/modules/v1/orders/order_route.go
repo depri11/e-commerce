@@ -19,11 +19,12 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	userRepository := users.NewRepository(u)
 	paymentService := payments.NewService(repository, productRepository)
 	service := NewService(repository, userRepository, paymentService)
-	handler := NewHandler(service)
+	handler := NewHandler(service, paymentService)
 
 	e.POST("/order/new", handler.NewOrder, middleware.CheckAuth)
 	e.GET("/order/:id", handler.GetOrderDetails, middleware.CheckAuth)
 	e.GET("/orders/me", handler.MyOrders, middleware.CheckAuth)
+	e.GET("/order/notification", handler.GetNotificationOrder, middleware.CheckAuth)
 
 	e.GET("/admin/orders", handler.GetAllOrders, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.PUT("/admin/order/:id", handler.UpdateOrder, middleware.CheckAuth, middleware.CheckRoleAdmin)

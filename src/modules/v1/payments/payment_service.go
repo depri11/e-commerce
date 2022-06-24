@@ -49,7 +49,7 @@ func (s *service) GetPaymentURL(orderID string, order *models.Order, user *input
 	return snapTokenResp.RedirectURL, nil
 }
 
-func (s *service) ProcessPayment(input *models.OrderNotification) (*helper.Res, error) {
+func (s *service) ProcessPayment(input *input.OrderNotificationInput) (*helper.Res, error) {
 	order, err := s.repository.FindByID(input.OrderID)
 	if err != nil {
 		return nil, err

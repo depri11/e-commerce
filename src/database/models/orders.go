@@ -30,10 +30,3 @@ type ShippingInfo struct {
 	Pincode string `json:"pincode" bson:"pincode"`
 	Phone   string `json:"phone" bson:"phone"`
 }
-
-type OrderNotification struct {
-	OrderStatus string `json:"transaction_status"`
-	OrderID     string `json:"order_id"`
-	PaymentType string `json:"payment_type"`
-	FraudStatus string `json:"fraud_status"`
-}
