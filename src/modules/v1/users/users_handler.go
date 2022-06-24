@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/depri11/e-commerce/src/database/models"
+	"github.com/depri11/e-commerce/src/helper"
 	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
@@ -54,6 +55,10 @@ func (h *handler) UpdateProfile(c echo.Context) error {
 		return err
 	}
 
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
+	}
+
 	res, err := h.service.Update(id, &input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
@@ -66,6 +71,10 @@ func (h *handler) Register(c echo.Context) error {
 	var input input.UserInput
 	if err := c.Bind(&input); err != nil {
 		return err
+	}
+
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	res, err := h.service.Insert(&input)
@@ -82,6 +91,10 @@ func (h *handler) UpdateUser(c echo.Context) error {
 
 	if err := c.Bind(&input); err != nil {
 		return err
+	}
+
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	res, err := h.service.Update(id, &input)
@@ -109,6 +122,10 @@ func (h *handler) ForgotPassword(c echo.Context) error {
 		return err
 	}
 
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
+	}
+
 	res, err := h.service.ForgotPassword(&input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
@@ -122,6 +139,10 @@ func (h *handler) ResetPassword(c echo.Context) error {
 	token := c.Param("token")
 	if err := c.Bind(&user); err != nil {
 		return err
+	}
+
+	if err := helper.ValidationError(user); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	res, err := h.service.ResetPassword(token, &user)

@@ -5,6 +5,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -21,7 +22,7 @@ type ProductRepository interface {
 type ProductService interface {
 	FindAll() (*helper.Res, error)
 	GetUserID(id string) (*helper.Res, error)
-	Insert(product *models.Product) (*helper.Res, error)
+	Insert(input *input.CreateProductInput) (*helper.Res, error)
 	Update(id string, product *models.Product) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
 	Search(page, search, sort string) (*helper.Res, error)

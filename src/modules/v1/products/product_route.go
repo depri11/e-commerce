@@ -17,8 +17,8 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	handler := NewHandler(service)
 
 	e.GET("/products", handler.QueryProducts)
-	e.GET("/products/all", handler.GetAllProducts, middleware.CheckAuth)
-	e.GET("/products/:id", handler.GetProductDetails)
+	e.GET("/products/all", handler.GetAllProducts)
+	e.GET("/product/:id", handler.GetProductDetails)
 	e.PUT("/product/:id/review", handler.CreateReview, middleware.CheckAuth)
 
 	e.GET("/admin/products", handler.GetAllProducts, middleware.CheckAuth, middleware.CheckRoleAdmin)

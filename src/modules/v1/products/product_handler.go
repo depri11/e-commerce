@@ -6,6 +6,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 	"github.com/labstack/echo/v4"
 )
@@ -39,9 +40,13 @@ func (h *handler) GetProductDetails(c echo.Context) error {
 }
 
 func (h *handler) CreateProduct(c echo.Context) error {
-	var product models.Product
+	var product input.CreateProductInput
 	if err := c.Bind(&product); err != nil {
-		return err
+		return c.JSON(500, err.Error())
+	}
+
+	if err := helper.ValidationError(product); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	data, err := h.service.Insert(&product)
@@ -58,6 +63,10 @@ func (h *handler) UpdateProduct(c echo.Context) error {
 
 	if err := c.Bind(&product); err != nil {
 		return err
+	}
+
+	if err := helper.ValidationError(product); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	res, err := h.service.Update(id, &product)
@@ -98,15 +107,22 @@ func (h *handler) CreateReview(c echo.Context) error {
 
 	id := c.Param("id")
 
+	var input input.CreateReviewInput
 	var review models.Review
 
-	if err := c.Bind(&review); err != nil {
-		return err
+	if err := c.Bind(&input); err != nil {
+		return c.JSON(500, err.Error())
+	}
+
+	if err := helper.ValidationError(input); err != nil {
+		return c.JSON(400, err.Error())
 	}
 
 	review.UserID = user_id
 	review.ProductID = id
 	review.Fullname = name
+	review.Comment = input.Comment
+	review.Rating = input.Rating
 
 	res, err := h.service.InsertReview(&review)
 	if err != nil {

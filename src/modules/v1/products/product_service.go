@@ -8,6 +8,7 @@ import (
 
 	"github.com/depri11/e-commerce/src/database/models"
 	"github.com/depri11/e-commerce/src/helper"
+	"github.com/depri11/e-commerce/src/input"
 	"github.com/depri11/e-commerce/src/interfaces"
 )
 
@@ -41,11 +42,22 @@ func (s *service) GetUserID(id string) (*helper.Res, error) {
 	return res, nil
 }
 
-func (s *service) Insert(product *models.Product) (*helper.Res, error) {
+func (s *service) Insert(input *input.CreateProductInput) (*helper.Res, error) {
+	var product models.Product
+
+	product.Name = input.Name
+	product.Description = input.Description
+	product.Specifications = input.Specifications
+	product.Price = input.Price
+	product.CuttedPrice = input.CuttedPrice
+	product.Brand = input.Brand
+	product.Category = input.Category
+	product.Stock = input.Stock
+	product.Warranty = input.Warranty
 	product.CreatedAt = time.Now()
 	product.UpdatedAt = time.Now()
 	product.NumOfReviews = 0
-	data, err := s.repository.Insert(product)
+	data, err := s.repository.Insert(&product)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +99,6 @@ func (s *service) Search(page, search, sort string) (*helper.Res, error) {
 }
 
 func (s *service) InsertReview(review *models.Review) (*helper.Res, error) {
-
 	reviewData, err := s.repository.FindByID(review.ProductID)
 	if err != nil {
 		return nil, err
