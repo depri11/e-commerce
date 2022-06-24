@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/depri11/e-commerce/src/routers"
 )
@@ -12,6 +13,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	e.Logger.Fatal(e.Start(":4000"))
+	var addrs string = "0.0.0.0:4000"
+
+	if pr := os.Getenv("PORT"); pr != "" {
+		addrs = "0.0.0.0:" + pr
+	}
+
+	e.Logger.Fatal(e.Start(addrs))
 
 }
