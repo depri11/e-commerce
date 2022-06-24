@@ -22,10 +22,10 @@ func NewRouter(e *echo.Group, db *mongo.Database) {
 	e.PUT("/product/:id/review", handler.CreateReview, middleware.CheckAuth)
 
 	e.GET("/admin/products", handler.GetAllProducts, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.POST("/admin/products/new", handler.CreateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.PUT("/admin/products/upload", handler.UploadImages, middleware.CheckAuth)
-	e.PUT("/admin/products/:id", handler.UpdateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
-	e.DELETE("/admin/products/:id", handler.DeletProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.POST("/admin/product/new", handler.CreateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.PUT("/admin/product/upload", handler.UploadImages, middleware.CheckAuth)
+	e.PUT("/admin/product/:id", handler.UpdateProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
+	e.DELETE("/admin/product/:id", handler.DeletProduct, middleware.CheckAuth, middleware.CheckRoleAdmin)
 
 	e.GET("/admin/reviews", handler.GetAllReviewByProductId, middleware.CheckAuth, middleware.CheckRoleAdmin)
 	e.DELETE("/admin/review", handler.DeleteReview, middleware.CheckAuth, middleware.CheckRoleAdmin)

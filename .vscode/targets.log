@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun 23 14:49:56 2022
+# Make data base, printed on Fri Jun 24 19:04:27 2022
 
 # Variables
 
@@ -21,7 +21,7 @@ GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
 SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-e19ddee3-413c-4062-aefb-da80ee4691f8.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7780f66e-081f-4965-b88a-2346385f7980.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/ubuntu-xorg.mandatory.path
 # environment
@@ -73,11 +73,11 @@ XAUTHORITY = /run/user/1000/gdm/Xauthority
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.100
+GNOME_TERMINAL_SERVICE = :1.7032
 # makefile
 MAKEFLAGS = pqrR
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=44e7f8c24ad9397d9335b8ca62b41aec
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=c72f7274a6bab445256e4c4562b5b14f
 # makefile
 CURDIR := /home/dev/go/src/github.com/depri11/e-commerce_mongodb_midtrans
 # environment
@@ -107,19 +107,19 @@ ZSH = /home/dev/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 5594
+VSCODE_PID = 65307
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/21:@/tmp/.ICE-unix/2589,unix/21:/tmp/.ICE-unix/2589
+SESSION_MANAGER = local/21:@/tmp/.ICE-unix/2925,unix/21:/tmp/.ICE-unix/2925
 # automatic
 *F = $(notdir $*)
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=44e7f8c24ad9397d9335b8ca62b41aec
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=c72f7274a6bab445256e4c4562b5b14f
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -137,7 +137,7 @@ XMODIFIERS = @im=ibus
 # environment
 SHLVL = 1
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/adeb2082_9762_4caf_99a6_09c9098c0088
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/726fbadd_6195_4856_836e_abc8ecbab726
 # environment
 MAKELEVEL := 0
 # default
@@ -179,7 +179,7 @@ LOGNAME = dev
 # makefile
 .DEFAULT_GOAL := build
 # environment
-SYSTEMD_EXEC_PID = 2589
+SYSTEMD_EXEC_PID = 2925
 # environment
 DISPLAY = :0
 # environment
@@ -207,8 +207,6 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
 COLORTERM = truecolor
 # environment
-GOMODCACHE = /home/dev/go/pkg/mod
-# environment
 XDG_SESSION_CLASS = user
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
@@ -224,8 +222,6 @@ VSCODE_IPC_HOOK = /run/user/1000/vscode-382e5fbe-1.67.2-main.sock
 TERM = xterm-256color
 # environment
 PAPERSIZE = letter
-# environment
-GOPROXY = https://proxy.golang.org,direct
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -247,7 +243,7 @@ GDMSESSION = ubuntu-xorg
 # environment
 LC_IDENTIFICATION = en_US.UTF-8
 # variable set hash-table stats:
-# Load=117/1024=11%, Rehash=0, Collisions=13/147=9%
+# Load=115/1024=11%, Rehash=0, Collisions=13/145=9%
 
 # Pattern-specific Variable Values
 
@@ -298,11 +294,11 @@ all:
 run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 5):
 	go run main.go serve
 
- 
 build:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -324,6 +320,6 @@ build:
 # strcache performance: lookups = 31 / hit rate = 22%
 # hash-table stats:
 # Load=24/8192=0%, Rehash=0, Collisions=0/31=0%
-# Finished Make data base on Thu Jun 23 14:49:56 2022
+# Finished Make data base on Fri Jun 24 19:04:27 2022
 
  
