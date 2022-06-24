@@ -23,7 +23,7 @@ type ProductService interface {
 	FindAll() (*helper.Res, error)
 	GetUserID(id string) (*helper.Res, error)
 	Insert(input *input.CreateProductInput) (*helper.Res, error)
-	Update(id string, product *models.Product) (*helper.Res, error)
+	Update(id string, input *input.UpdateProductInput) (*helper.Res, error)
 	Delete(id string) (*helper.Res, error)
 	Search(page, search, sort string) (*helper.Res, error)
 	GetReviews(id string) (*helper.Res, error)

@@ -59,17 +59,17 @@ func (h *handler) CreateProduct(c echo.Context) error {
 
 func (h *handler) UpdateProduct(c echo.Context) error {
 	id := c.Param("id")
-	var product models.Product
+	var input input.UpdateProductInput
 
-	if err := c.Bind(&product); err != nil {
+	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	if err := helper.ValidationError(product); err != nil {
+	if err := helper.ValidationError(input); err != nil {
 		return c.JSON(400, err.Error())
 	}
 
-	res, err := h.service.Update(id, &product)
+	res, err := h.service.Update(id, &input)
 	if err != nil {
 		return c.JSON(http.StatusNotAcceptable, err.Error())
 	}

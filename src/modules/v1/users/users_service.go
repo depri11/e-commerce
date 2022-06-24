@@ -54,7 +54,8 @@ func (s *service) Insert(input *input.UserInput) (*helper.Res, error) {
 	user.Role = "user"
 	hashPass, err := helper.HashPassword(input.Password)
 	if err != nil {
-		return nil, err
+		res := helper.ResponseJSON("Error password", 404, "error", err.Error())
+		return res, nil
 	}
 
 	user.Password = hashPass
