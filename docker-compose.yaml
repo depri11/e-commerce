@@ -7,3 +7,18 @@ services:
         ports:
             - 27017:27017
         command: mongod
+    todo-backend:
+        build: .
+        ports:
+            - 4000:4000
+        environment:
+            - MONGODB_URI=mongodb://0.0.0.0:27017/
+            - MONGODB_NAME=e-commerce
+            - MIDTRANS_SERVER=SB-Mid-server-Dc-ShUJ8AJYb9EvWzoVZKCq0
+            - MIDTRANS_CLIENT=SB-Mid-client-Fg55R6OSZynaFTNA
+            - CLOUD_NAME=dlyp1s66j
+            - CLOUD_KEY=424186382842538
+            - CLOUD_SECRET=nsffCHZoLCYSbEkgn-TptP2EL9c
+            - JWT_SECRET_KEY=dev
+        depends_on:
+            - mongo
