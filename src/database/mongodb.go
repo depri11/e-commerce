@@ -6,16 +6,15 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func SetupDB() (*mongo.Database, error) {
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	mongo_uri := os.Getenv("MONGODB_URI")
 	name := os.Getenv("MONGODB_NAME")
