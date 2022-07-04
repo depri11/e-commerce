@@ -8,12 +8,11 @@ import (
 
 const CONFIG_SMTP_HOST = "smtp.gmail.com"
 const CONFIG_SMTP_PORT = 587
-const CONFIG_SENDER_NAME = "Reset Password <wirlandikadevri@gmail.com>"
 const CONFIG_AUTH_EMAIL = "wirlandikadevri@gmail.com"
 const CONFIG_AUTH_PASSWORD = "erdejfuzvsvqiief"
 
-func SendMail(to []string, cc []string, subject, message string) error {
-	body := "From: " + CONFIG_SENDER_NAME + "\n" +
+func SendMail(senderName string, to []string, cc []string, subject, message string) error {
+	body := "From: " + senderName + "\n" +
 		"To: " + strings.Join(to, ",") + "\n" +
 		"Cc: " + strings.Join(cc, ",") + "\n" +
 		"Subject: " + subject + "\n\n" +
