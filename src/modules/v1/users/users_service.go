@@ -129,6 +129,11 @@ func (s *service) ForgotPassword(input *input.ForgotPasswordInput) (*helper.Res,
 
 	url := fmt.Sprintf("http://localhost:4000/api/v1/password/reset/%s", token)
 
+	email := []string{data.Email}
+	cc := []string{data.Email}
+
+	helper.SendMail(email, cc, "Reset Password", url)
+
 	_, err = s.repository.Update(id, data)
 	if err != nil {
 		return nil, err

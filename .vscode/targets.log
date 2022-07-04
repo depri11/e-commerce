@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun 24 19:04:27 2022
+# Make data base, printed on Mon Jul  4 22:09:43 2022
 
 # Variables
 
@@ -17,11 +17,13 @@ GDK_BACKEND = x11
 # environment
 LC_ALL = C
 # environment
+NO_AT_BRIDGE = 1
+# environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
 SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7780f66e-081f-4965-b88a-2346385f7980.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-559cdefe-8f1e-4467-b962-67c809e63973.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/ubuntu-xorg.mandatory.path
 # environment
@@ -73,11 +75,11 @@ XAUTHORITY = /run/user/1000/gdm/Xauthority
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # environment
-GNOME_TERMINAL_SERVICE = :1.7032
+GNOME_TERMINAL_SERVICE = :1.6416
 # makefile
 MAKEFLAGS = pqrR
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=c72f7274a6bab445256e4c4562b5b14f
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=1b2ebefaba62a0f3b30439cc62c24a46
 # makefile
 CURDIR := /home/dev/go/src/github.com/depri11/e-commerce_mongodb_midtrans
 # environment
@@ -107,19 +109,19 @@ ZSH = /home/dev/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 65307
+VSCODE_PID = 205307
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/21:@/tmp/.ICE-unix/2925,unix/21:/tmp/.ICE-unix/2925
+SESSION_MANAGER = local/21:@/tmp/.ICE-unix/2167,unix/21:/tmp/.ICE-unix/2167
 # automatic
 *F = $(notdir $*)
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=c72f7274a6bab445256e4c4562b5b14f
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=1b2ebefaba62a0f3b30439cc62c24a46
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -137,7 +139,7 @@ XMODIFIERS = @im=ibus
 # environment
 SHLVL = 1
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/726fbadd_6195_4856_836e_abc8ecbab726
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a23f11db_1960_4e19_b740_c7e26ef81782
 # environment
 MAKELEVEL := 0
 # default
@@ -179,7 +181,7 @@ LOGNAME = dev
 # makefile
 .DEFAULT_GOAL := build
 # environment
-SYSTEMD_EXEC_PID = 2925
+SYSTEMD_EXEC_PID = 2167
 # environment
 DISPLAY = :0
 # environment
@@ -243,7 +245,7 @@ GDMSESSION = ubuntu-xorg
 # environment
 LC_IDENTIFICATION = en_US.UTF-8
 # variable set hash-table stats:
-# Load=115/1024=11%, Rehash=0, Collisions=13/145=9%
+# Load=116/1024=11%, Rehash=0, Collisions=13/146=9%
 
 # Pattern-specific Variable Values
 
@@ -251,9 +253,9 @@ LC_IDENTIFICATION = en_US.UTF-8
 
 # Directories
 
-# . (device 66312, inode 1088941): 16 files, no impossibilities.
+# . (device 66312, inode 1088941): 17 files, no impossibilities.
 
-# 16 files, no impossibilities in 1 directories.
+# 17 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -291,10 +293,10 @@ all:
 #  File does not exist.
 #  File has not been updated.
 
+ 
 run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 5):
 	go run main.go serve
@@ -314,12 +316,12 @@ build:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 24 / storage = 205 B / avg = 8 B
-# current buf: size = 8162 B / used = 205 B / count = 24 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 25 / storage = 209 B / avg = 8 B
+# current buf: size = 8162 B / used = 209 B / count = 25 / avg = 8 B
 
-# strcache performance: lookups = 31 / hit rate = 22%
+# strcache performance: lookups = 32 / hit rate = 21%
 # hash-table stats:
-# Load=24/8192=0%, Rehash=0, Collisions=0/31=0%
-# Finished Make data base on Fri Jun 24 19:04:27 2022
+# Load=25/8192=0%, Rehash=0, Collisions=0/32=0%
+# Finished Make data base on Mon Jul  4 22:09:43 2022
 
  
