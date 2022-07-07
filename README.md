@@ -3,36 +3,29 @@ Backend e-Commerce & Midtrans Payment
 ## 🖥️ Tech Stack
 **Backend:**
 
-![golang](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)&nbsp;
-![echo](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)&nbsp;
-![mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)&nbsp;
+![golang](https://img.shields.io/badge/Golang-100000?style=for-the-badge&logo=Go&logoColor=000000&labelColor=92D7FA&color=92D7FA)&nbsp;
+![echo](https://img.shields.io/badge/ECHO-100000?style=for-the-badge&logo=Cookiecutter&logoColor=FFFFFF&labelColor=83492F&color=83492F)&nbsp;
+![mongodb](https://img.shields.io/badge/MongoDB-100000?style=for-the-badge&logo=MongoDB&logoColor=FFFFFF&labelColor=2A865C&color=1D6200)&nbsp;
 ![jwt](	https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)&nbsp;
 
 **Payment Gateway:**
 
 ![midtrans](https://img.shields.io/badge/Paytm-002970?style=for-the-badge&logo=paytm&logoColor=00BAF2)
 
-**Deployed On:**
+**Image Management:** [Cloudinary](https://cloudinary.com/)&nbsp;
 
-![heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
-
-**Image Management:** [Cloudinary](https://cloudinary.com/)
 **Mail Service:** [SMTP Gmail]
 
 ## 🚀 Features
-- Login/Signup User Account
+- Login/Signup User Account with SendEmail
 - Update Profile/Password User Account
-- Reset Password Mail using Sendgrid
+- Reset Password with SendEmail
 - Cart Add/Remove Items | Update Quantities
 - Save For Later Add/Remove Items
-- Wishlist Add/Remove Items
-- Products Pagination (Default 12 Products Per Page)
-- Product Search
+- Product Search with Pagination
 - Product Filters Based on Category/Ratings | Price Range
-- Shipping Info in Session Storage
-- My Orders (With All Filters)
+- My Orders
 - Order Details of All Ordered Item
-- Users will receive mail when order placed with all details
 - Review Products User Account
 - Admin: Dashboard access to only admin roles
 - Admin: Update Order Status | Delete Order
