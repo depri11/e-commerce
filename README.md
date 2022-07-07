@@ -9,8 +9,7 @@ Backend e-Commerce & Midtrans Payment
 ![jwt](	https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)&nbsp;
 
 **Payment Gateway:**
-
-![midtrans](https://img.shields.io/badge/Paytm-002970?style=for-the-badge&logo=paytm&logoColor=00BAF2)
+![midtrans](https://img.shields.io/badge/midtrans-100000?style=for-the-badge&logo=Paperspace&logoColor=000000&labelColor=A9BFFD&color=A9BFFD)
 
 **Image Management:** [Cloudinary](https://cloudinary.com/)&nbsp;
 
